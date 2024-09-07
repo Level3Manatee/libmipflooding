@@ -1,0 +1,19 @@
+[project]
+name = "libmipflooding"
+version = "0.1"
+authors = [
+    { name="Jan Ortgies", email="mipflooding@p23.eu" },
+]
+description = "Python wrapper for libmipflooding, a C++ implementation of Mip Flooding, an efficient edge padding technique that improves compressibility, first presented by Sean Feeley at GDC 2019"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/Level3Manatee/libmipflooding"
+Issues = "https://github.com/Level3Manatee/libmipflooding/issues"
+
+[build-system]
+requires = ["setuptools"]

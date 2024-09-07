@@ -1,0 +1,5 @@
+/venv/
+/Build/
+/src/wrappers/python/build
+/src/wrappers/python/libmipflooding.egg-info
+.idea
