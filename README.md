@@ -10,7 +10,7 @@ Python wrapper included, which mainly implements two functions:
 The python wrapper is installable using pip:
 
 ```
-pip install <path_to_libmipflooding>/src/wrappers/python/
+pip install <path_to_libmipflooding>/wrappers/python/
 ```
 
 This is a pre-release, more documentation and linux binaries to follow. I would love to get your feedback!
