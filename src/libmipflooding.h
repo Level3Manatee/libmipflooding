@@ -12,22 +12,6 @@ namespace libmipflooding
      *******************************************/
     #pragma region helper_functions
 
-    uint8_t get_mip_count(
-        const uint_fast16_t width,
-        const uint_fast16_t height
-    );
-
-    uint8_t channel_mask_from_array(
-        const bool* array,
-        const uint_fast8_t element_count
-    );
-
-    void free_mips_memory(
-        const uint_fast8_t mip_count,
-        float** mips_output,
-        uint8_t** masks_output
-    );
-
     void convert_linear_to_srgb(
         const uint_fast16_t width,
         const uint_fast16_t height_or_end_row,
@@ -54,6 +38,22 @@ namespace libmipflooding
     *******************************************/
     #pragma region subroutines
 
+    uint8_t get_mip_count(
+        const uint_fast16_t width,
+        const uint_fast16_t height
+    );
+
+    uint8_t channel_mask_from_array(
+        const bool* array,
+        const uint_fast8_t element_count
+    );
+
+    void free_mips_memory(
+        const uint_fast8_t mip_count,
+        float** mips_output,
+        uint8_t** masks_output
+    );
+    
     template <typename InputT, typename InputMaskT>
     void convert_and_scale_down_weighted(
         const uint_fast16_t output_width,
