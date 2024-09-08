@@ -19,6 +19,7 @@ This is a pre-release, more documentation and linux binaries to follow. I would 
 #### High priority
 * Documentation
 * input assertions and graceful failure
+* Build config and binaries for Linux (and possible Mac?)
 
 #### Medium priority
 * Normal map scaling using slerp instead of just re-normalizing
