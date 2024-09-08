@@ -50,6 +50,7 @@ channel_set::channel_set(const uint_fast8_t channel_count): channel_count_(chann
     }
 }
 
+#ifdef _DEBUG
 std::string channel_set::to_string() const
 {
     std::stringstream str;
@@ -63,3 +64,4 @@ std::string channel_set::to_string() const
     str << "]";
     return str.str();
 }
+#endif
