@@ -173,7 +173,29 @@ namespace libmipflooding
     * CORE FUNCTIONS
     *******************************************/
     #pragma region core_functions
-    
+
+    /**
+     * Generate coverage-weighted mip maps
+     *
+     * Generates coverage-weighted mip maps and outputs them as a list of linear float (0..1) arrays (excluding input image / mip 0)
+     * 
+     * @tparam ImageT uint8_t/uint16_t/float
+     * @tparam MaskT uint8_t/uint16_t/float
+     * @param image_in_out Input image of type uint8_t/uint16_t/float
+     * @param image_width Input image width in pixels (must be power of 2)
+     * @param image_height Input image height pixels (must be power of 2)
+     * @param channel_stride Number of total channels in image data
+     * @param image_mask (optional) Coverage mask of type uint8_t/uint16_t/float. Pass nullptr to use last channel of input image instead.
+     * @param mips_output Array of pointers (float*) that is filled with pointers to the generated mip maps
+     * @param masks_output Array of pointers (uint8_t*) that is filled with pointers to the generated coverage masks
+     * @param coverage_threshold (optional) Threshold to use for binarizing the input mask. Defaults to 0.999f.
+     * @param convert_srgb (optional) Convert sRGB to linear for correct scaling of sRGB textures (always returns linear data)
+     * @param is_normal_map (optional) Perform processing for normal maps. Will re-normalize vectors to unit length at the moment, Slerp is planned.
+     * @param channel_mask (optional) Binary mask of channels to process, 0 = all channels. You can use channel_mask_from_array() to generate one from an array of booleans.
+     * @param scale_alpha_unweighted (optional) Scale the last channel without coverage weighting? i.e. regular box filtering
+     * @param max_threads (optional) Number of threads to use. 0 = auto (half of available threads, which amounts to number of hardware cores for machines with SMT/HyperThreading)
+     * @return true on success, false on error (always returns true right now)
+     */
     template <typename ImageT, typename MaskT>
     bool generate_mips(
         ImageT* image_in_out,
@@ -192,6 +214,20 @@ namespace libmipflooding
     );
 
 
+    /**
+     * Composite mip levels to fill holes
+     *
+     * From smallest to largest, mip levels are consecutively scaled (nearest neighbor) and composited into each other. 
+     * 
+     * @param mips_in_out Array of pointers to the mip maps (float, 0..1 range), compositing is done in-place
+     * @param masks_input Array of pointers to the mip coverage masks (uint8_t, treated as binary 0/1). Used for compositing. 
+     * @param image_width Width of original image (i.e. double the width of the largest mip map)
+     * @param image_height Height of original image (i.e. double the height of the largest mip map)
+     * @param channel_stride Number of total channels in image data
+     * @param channel_mask (optional) Binary mask of channels to process, 0 = all channels. You can use channel_mask_from_array() to generate one from an array of booleans.
+     * @param max_threads (optional) Number of threads to use. 0 = auto (half of available threads, which amounts to number of hardware cores for machines with SMT/HyperThreading)
+     * @return true on success, false on error (always returns true right now)
+     */
     bool composite_mips(
         float** mips_in_out,
         const uint8_t** masks_input,
@@ -202,7 +238,25 @@ namespace libmipflooding
         const uint_fast8_t max_threads = 0
     );
 
-    
+
+    /**
+     * Mip-flood an image
+     *
+     * Generates a mip-flooded image by generating and compositing coverage-scaled mip maps, and then compositing the unmodified original image on top.
+     * 
+     * @param image_in_out Input image of type uint8_t/uint16_t/float
+     * @param image_width Input image width in pixels (must be power of 2)
+     * @param image_height Input image height pixels (must be power of 2)
+     * @param channel_stride Number of total channels in image data
+     * @param image_mask (optional) Coverage mask of type uint8_t/uint16_t/float. Pass nullptr to use last channel of input image instead.
+     * @param coverage_threshold (optional) Threshold to use for binarizing the input mask. Defaults to 0.999f.
+     * @param convert_srgb (optional) Convert sRGB to linear for correct scaling of sRGB textures (always returns linear data)
+     * @param is_normal_map (optional) Perform processing for normal maps. Will re-normalize vectors to unit length at the moment, Slerp is planned.
+     * @param channel_mask (optional) Binary mask of channels to process, 0 = all channels. You can use channel_mask_from_array() to generate one from an array of booleans.
+     * @param scale_alpha_unweighted (optional) Scale the last channel without coverage weighting? i.e. regular box filtering
+     * @param max_threads (optional) Number of threads to use. 0 = auto (half of available threads, which amounts to number of hardware cores for machines with SMT/HyperThreading)
+     * @return true on success, false on error (always returns true right now)
+     */
     template <typename ImageT, typename MaskT>
     bool flood_image(
         ImageT* image_in_out,

@@ -38,12 +38,13 @@ FUNC(ImageT, MaskT)
     std::cout << "Generating mips, image type " << typeid(ImageT).name() << ", mask type " << typeid(MaskT).name() << ", size " << std::to_string(image_width) << "x" << std::to_string(image_height) << "\n";
     #endif
 
+    /** Calculate number of mip levels, with support for non-square textures */
     const uint8_t mip_count = get_mip_count(image_width, image_height);
 
     uint_fast16_t mip_width = image_width / 2;
     uint_fast16_t mip_height = image_height / 2;
 
-    /** Initial type conversion & scale down */
+    /** Do pre-processing and first weighted scale in one go, to only touch the data once */
     float* output_mip = new float[static_cast<uint32_t>(mip_width * mip_height * channel_stride)];
     uint8_t* output_mask = new uint8_t[static_cast<uint32_t>(mip_width * mip_height)];
     if (max_threads != 1)
@@ -58,7 +59,7 @@ FUNC(ImageT, MaskT)
     mips_output[0] = output_mip;
     masks_output[0] = output_mask;
 
-    /** Keep scaling down to 1x1 */
+    /** Repeatedly scale mip to half its size, weighted by the coverage, to the last mip (i.e. one dimension is 1px wide or tall) */
     for (int i = 1; i < mip_count; ++i)
     {
         mip_width /= 2;
@@ -94,12 +95,15 @@ bool libmipflooding::composite_mips(
         const uint8_t channel_mask,
         const uint_fast8_t max_threads)
 {
+    /** Calculate number of mip levels, with support for non-square textures */
     const uint8_t mip_count = get_mip_count(image_width, image_height);
 
+    /** Calculate smallest mip dimensions (i.e. the smallest side is 1px, the other depends on aspect ratio) */
     uint_fast16_t mip_width = image_width > image_height ? image_width / image_height : 1;
     uint_fast16_t mip_height = image_width > image_height ? 1 : image_width / image_height;
     
-    /** Composite back up */
+    /** Nearest neighbor upscaling and compositing starting with the smallest mip level.
+     *  The smaller mip is scaled up and composited with the larger mip. */
     for (int i = mip_count - 2; i >= 0; --i)
     {
         if (max_threads != 1)
@@ -139,25 +143,29 @@ template <typename ImageT, typename MaskT>
     #ifdef _DEBUG
     std::cout << "Flooding image\n";
     #endif
-    
+
+    /** Calculate number of mip levels, with support for non-square (power of 2) textures */
     const uint_fast8_t mip_count = get_mip_count(image_width, image_height);
-    // index 0 is the traditional mip level 1
+
+    /** Pre-allocate pointer array to mip levels and scaled coverage masks. Index 0 is the traditional mip level 1 */
     float** mips_output = new float*[mip_count];
     uint8_t** masks_output = new uint8_t*[mip_count];
 
+    /** Generate the mip levels */
     generate_mips(image_in_out, image_width, image_height, channel_stride, image_mask, mips_output, masks_output, coverage_threshold, convert_srgb, is_normal_map, channel_mask, scale_alpha_unweighted, max_threads);
 
     #ifdef _DEBUG
     std::cout << "Done generating mips\n";
     #endif
-    
+
+    /** Composite the mips on top of each other to fill holes */
     composite_mips(mips_output, const_cast<const uint8_t**>(masks_output), image_width, image_height, channel_stride, channel_mask, max_threads);
 
     #ifdef _DEBUG
     std::cout << "Done compositing mips\n";
     #endif
         
-    /** Final composite */
+    /** Do final scale, post-processing and composite with the original image in one go to only touch the data once */
     if (max_threads != 1)
         final_composite_and_convert_threaded(image_width/2, image_width/2, channel_stride, mips_output[0], image_in_out, image_mask, coverage_threshold, convert_srgb, channel_mask, max_threads);
     else
@@ -166,7 +174,7 @@ template <typename ImageT, typename MaskT>
     #ifdef _DEBUG
     std::cout << "Done compositing mips and image\n";
     #endif
-    
+
     free_mips_memory(mip_count, mips_output, masks_output);
     
     #ifdef _DEBUG

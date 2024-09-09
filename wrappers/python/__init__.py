@@ -55,7 +55,7 @@ def generate_mips(
         ) -> Union[list, None]:
     """Coverage-weighted mip maps
 
-    Generates coverage-weighted mip maps and returns them as a list of float (0..1) NumPy arrays (excluding input image / mip 0)
+    Generates coverage-weighted mip maps and returns them as a list of float (0..1) NumPy arrays (excluding input image / mip 0).
 
     :param image: ndarray[ndim=3], types uint8 / uint16 / float, expects 0..1 range for float
     :param coverage_mask: None; ndarray[ndim=1 or 2], type uint8, linear. If None, uses last channel of image as coverage mask.
@@ -161,7 +161,7 @@ def flood_image(
     ) -> Union[np.ndarray, None]:
     """Mip-flooded texture
 
-    Generates a mip-flooded texture by generating and compositing coverage scaled mips, and then compositing the unmodified original image on top
+    Generates a mip-flooded image by generating and compositing coverage-scaled mip maps, and then compositing the unmodified original image on top.
 
     :param image: ndarray[ndim=3], types uint8 / uint16 / float
     :param coverage_mask: None; ndarray[ndim=1 or 2], type uint8, linear. If None, uses last channel of image as coverage mask.
