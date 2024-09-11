@@ -1,12 +1,19 @@
-import numpy as np
-import os.path
-from typing import Union
+import platform
 import ctypes
 from ctypes import c_bool as bool_t, c_ubyte as uint8_t, c_ushort as uint16_t, c_float as float_t, c_void_p
+import numpy as np
 from enum import IntEnum
+import os.path
+from typing import Union
 
 path = os.path.dirname(__file__)
-libmipflooding = ctypes.CDLL(path + '/binaries/libmipflooding.dll')
+
+# Currently assumes Win or Linux on AMD64. Compile libmipflooding and replace file(s) if you need e.g. Mac and/or ARM64.
+if platform.system() == "Windows":
+    libmipflooding = ctypes.CDLL(path + '/binaries/libmipflooding.dll')
+else:
+    libmipflooding = ctypes.CDLL(path + '/binaries/libmipflooding.so')
+
 
 class DATA_TYPE(IntEnum):
     UINT8 = 0
@@ -134,17 +141,24 @@ def generate_mips(
     for i in range(mip_count):
         mip_width = mip_width // 2
         mip_height = mip_height // 2
-        mips_list.append(np.ndarray((mip_width, mip_height, channel_stride), dtype=output_type, order="C"))
-        libmipflooding.convert_to_type_threaded(
-            uint16_t(mip_width),
-            uint16_t(mip_height),
-            uint8_t(channel_stride),
-            mips_output_float[i],
-            c_void_p(mips_list[i].ctypes.data),
-            image_data_type,
-            bool_t(convert_srgb),
-            uint8_t(channel_mask),
-            uint8_t(max_threads))
+        if convert_srgb or not output_float:
+            mips_list.append(np.ndarray((mip_width, mip_height, channel_stride), dtype=output_type, order="C"))
+            libmipflooding.convert_to_type_threaded(
+                uint16_t(mip_width),
+                uint16_t(mip_height),
+                uint8_t(channel_stride),
+                mips_output_float[i],
+                c_void_p(mips_list[i].ctypes.data),
+                image_data_type,
+                bool_t(convert_srgb),
+                uint8_t(channel_mask),
+                uint8_t(max_threads))
+        else:
+            np_array = np.ctypeslib.as_array(
+                mips_output_float[i],
+                [mip_height, mip_width, channel_stride]
+            )
+            mips_list.append(np_array.copy())
 
     libmipflooding.free_mips_memory(uint8_t(mip_count), mips_output_float, masks_output)
 
