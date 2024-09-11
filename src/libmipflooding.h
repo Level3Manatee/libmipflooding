@@ -5,6 +5,12 @@
 #define LIBMIPFLOODING_VERSION_MAJOR 0
 #define LIBMIPFLOODING_VERSION_MINOR 1
 
+#ifdef _WIN32
+    #define EXPORT_SYMBOL __declspec(dllexport)
+#else
+    #define EXPORT_SYMBOL
+#endif
+
 namespace libmipflooding
 {
     /*******************************************
@@ -13,6 +19,7 @@ namespace libmipflooding
     #pragma region helper_functions
 
     void convert_linear_to_srgb(
+    EXPORT_SYMBOL void convert_linear_to_srgb(
         const uint_fast16_t width,
         const uint_fast16_t height_or_end_row,
         const uint_fast8_t channel_stride,
@@ -22,12 +29,28 @@ namespace libmipflooding
     );
 
     void convert_linear_to_srgb_threaded(
+    EXPORT_SYMBOL void convert_linear_to_srgb_threaded(
         const uint_fast16_t width,
         const uint_fast16_t height_or_end_row,
         const uint_fast8_t channel_stride,
         float* image_in_out,
         const uint8_t channel_mask,
         const uint_fast8_t max_threads
+    
+    EXPORT_SYMBOL uint8_t get_mip_count(
+        const uint_fast16_t width,
+        const uint_fast16_t height
+    );
+
+    EXPORT_SYMBOL uint8_t channel_mask_from_array(
+        const bool* array,
+        const uint_fast8_t element_count
+    );
+
+    EXPORT_SYMBOL void free_mips_memory(
+        const uint_fast8_t mip_count,
+        float** mips_output,
+        uint8_t** masks_output
     );
     
     #pragma endregion helper_functions
@@ -38,24 +61,8 @@ namespace libmipflooding
     *******************************************/
     #pragma region subroutines
 
-    uint8_t get_mip_count(
-        const uint_fast16_t width,
-        const uint_fast16_t height
-    );
-
-    uint8_t channel_mask_from_array(
-        const bool* array,
-        const uint_fast8_t element_count
-    );
-
-    void free_mips_memory(
-        const uint_fast8_t mip_count,
-        float** mips_output,
-        uint8_t** masks_output
-    );
-    
     template <typename InputT, typename InputMaskT>
-    void convert_and_scale_down_weighted(
+    EXPORT_SYMBOL void convert_and_scale_down_weighted(
         const uint_fast16_t output_width,
         const uint_fast16_t output_height_or_end_row,
         const uint_fast8_t stride,
@@ -72,7 +79,7 @@ namespace libmipflooding
     );
     
     template <typename InputT, typename InputMaskT>
-    void convert_and_scale_down_weighted_threaded(
+    EXPORT_SYMBOL void convert_and_scale_down_weighted_threaded(
         const uint_fast16_t output_width,
         const uint_fast16_t output_height,
         const uint_fast8_t stride,
@@ -88,7 +95,7 @@ namespace libmipflooding
         const uint_fast8_t max_threads = 0
     );
 
-    void scale_down_weighted(
+    EXPORT_SYMBOL void scale_down_weighted(
         const uint_fast16_t output_width,
         const uint_fast16_t output_height_or_end_row,
         const uint_fast8_t stride,
@@ -102,7 +109,7 @@ namespace libmipflooding
         const uint_fast16_t start_row = 0
     );
     
-    void scale_down_weighted_threaded(
+    EXPORT_SYMBOL void scale_down_weighted_threaded(
         const uint_fast16_t output_width,
         const uint_fast16_t output_height,
         const uint_fast8_t stride,
@@ -116,7 +123,7 @@ namespace libmipflooding
         const uint_fast8_t max_threads = 0
     );
 
-    void composite_up(
+    EXPORT_SYMBOL void composite_up(
         const uint_fast16_t input_width,
         const uint_fast16_t input_height_or_end_row,
         const uint_fast8_t channel_stride,
@@ -127,7 +134,7 @@ namespace libmipflooding
         const uint_fast16_t start_row = 0
     );
 
-    void composite_up_threaded(
+    EXPORT_SYMBOL void composite_up_threaded(
         const uint_fast16_t input_width,
         const uint_fast16_t input_height,
         const uint_fast8_t channel_stride,
@@ -139,7 +146,7 @@ namespace libmipflooding
     );
 
     template <typename OutputT, typename MaskT>
-    void final_composite_and_convert(
+    EXPORT_SYMBOL void final_composite_and_convert(
         const uint_fast16_t input_width,
         const uint_fast16_t input_height_or_end_row,
         const uint_fast8_t channel_stride,
@@ -153,7 +160,7 @@ namespace libmipflooding
     );
     
     template <typename OutputT, typename MaskT>
-    void final_composite_and_convert_threaded(
+    EXPORT_SYMBOL void final_composite_and_convert_threaded(
         const uint_fast16_t input_width,
         const uint_fast16_t input_height,
         const uint_fast8_t channel_stride,
@@ -202,7 +209,7 @@ namespace libmipflooding
      * @return true on success, false on error (always returns true right now)
      */
     template <typename ImageT, typename MaskT>
-    bool generate_mips(
+    EXPORT_SYMBOL bool generate_mips(
         ImageT* image_in_out,
         const uint_fast16_t image_width,
         const uint_fast16_t image_height,
@@ -235,7 +242,7 @@ namespace libmipflooding
      *                       which amounts to number of hardware cores for machines with SMT/HyperThreading)
      * @return true on success, false on error (always returns true right now)
      */
-    bool composite_mips(
+    EXPORT_SYMBOL bool composite_mips(
         float** mips_in_out,
         const uint8_t** masks_input,
         const uint_fast16_t image_width,
@@ -271,7 +278,7 @@ namespace libmipflooding
      * @return true on success, false on error (always returns true right now)
      */
     template <typename ImageT, typename MaskT>
-    bool flood_image(
+    EXPORT_SYMBOL bool flood_image(
         ImageT* image_in_out,
         const uint_fast16_t image_width,
         const uint_fast16_t image_height,
