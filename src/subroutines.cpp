@@ -63,10 +63,10 @@ template <typename OutputT>
 FUNC(OutputT)
 {
     const channel_set channels = channel_set(channel_mask, channel_stride);
-    const uint_fast16_t output_width = width * 2;
     const float image_type_factor = std::is_floating_point<OutputT>::value ? 1.0f : static_cast<float>(std::numeric_limits<OutputT>::max());
     #ifdef _DEBUG
-    std::printf("Convert to type, start row %i, end row %i, output width %i, channel stride %i, convert to sRGB?: %s, channel_mask %s\n", start_row, height_or_end_row, output_width, channel_stride, (convert_srgb ? "yes" : "no"), channels.to_string().c_str());
+    const uint_fast16_t output_width = width * 2;
+    std::printf("Convert to type, start row %lu, end row %lu, output width %lu, channel stride %hhu, convert to sRGB?: %s, channel_mask %s\n", start_row, height_or_end_row, output_width, channel_stride, (convert_srgb ? "yes" : "no"), channels.to_string().c_str());
     #endif    
     for (uint_fast16_t y = start_row; y < height_or_end_row; ++y)
     {
@@ -246,7 +246,7 @@ FUNC(InputT, InputMaskT)
     }
     #ifdef _DEBUG
     const float coverage_percent = static_cast<float>(covered_pixels) / static_cast<float>((output_height_or_end_row - start_row) * output_width);
-    std::printf("Convert and scale down weighted: done, start row %i, end row %i, output width %i, channel stride %i, channel_mask %s, image conversion factor %f, mask conversion factor %f, coverage: %f, last channel is mask: %s, scale alpha unweighted: %s\n", start_row, output_height_or_end_row, output_width, channel_stride, channels.to_string().c_str(), image_type_factor, mask_type_factor, coverage_percent, (last_channel_is_mask ? "yes" : "no"), (scale_alpha_unweighted ? "yes" : "no"));
+    std::printf("Convert and scale down weighted: done, start row %lu, end row %lu, output width %lu, channel stride %hhu, channel_mask %s, image conversion factor %f, mask conversion factor %f, coverage: %f, last channel is mask: %s, scale alpha unweighted: %s\n", start_row, output_height_or_end_row, output_width, channel_stride, channels.to_string().c_str(), image_type_factor, mask_type_factor, coverage_percent, (last_channel_is_mask ? "yes" : "no"), (scale_alpha_unweighted ? "yes" : "no"));
     #endif
 }
 INSTANTIATE_TYPES_2(FUNC)
@@ -295,7 +295,7 @@ void libmipflooding::scale_down_weighted(
     const channel_set channels = channel_set(channel_mask, channel_stride);
     const uint_fast16_t input_width = output_width * 2;
     #ifdef _DEBUG
-    std::printf("Scale down weighted, start row %i, end row %i, output width %i, channel stride %i, channel_mask %s\n", start_row, output_height_or_end_row, output_width, channel_stride, channels.to_string().c_str());
+    std::printf("Scale down weighted, start row %lu, end row %lu, output width %lu, channel stride %hhu, channel_mask %s\n", start_row, output_height_or_end_row, output_width, channel_stride, channels.to_string().c_str());
     #endif    
     for (uint_fast32_t y = start_row; y < output_height_or_end_row; ++y)
     {
@@ -377,7 +377,7 @@ void libmipflooding::composite_up(
     const channel_set channels = channel_set(channel_mask, channel_stride);
     const uint_fast16_t output_width = input_width * 2;
     #ifdef _DEBUG
-    std::printf("Composite up, start row %i, end row %i, output width %i, channel stride %i, channel_mask %s\n", start_row, input_height_or_end_row, output_width, channel_stride, channels.to_string().c_str());
+    std::printf("Composite up, start row %lu, end row %lu, output width %lu, channel stride %hhu, channel_mask %s\n", start_row, input_height_or_end_row, output_width, channel_stride, channels.to_string().c_str());
     #endif    
     for (uint_fast16_t y = start_row; y < input_height_or_end_row; ++y)
     {
@@ -454,7 +454,7 @@ FUNC(OutputT, MaskT)
     const float image_type_factor = std::is_floating_point<OutputT>::value ? 1.0f : static_cast<float>(std::numeric_limits<OutputT>::max());
     const float mask_type_factor = std::is_floating_point<MaskT>::value ? 1.0f : static_cast<float>(std::numeric_limits<MaskT>::max());
     #ifdef _DEBUG
-    std::printf("Final composite and convert, start row %i, end row %i, width %i, channel stride %i, channel_mask %s, image conversion factor %f, mask conversion factor %f\n", start_row, input_height_or_end_row, output_width, channel_stride, channels.to_string().c_str(), image_type_factor, mask_type_factor);
+    std::printf("Final composite and convert, start row %lu, end row %lu, width %lu, channel stride %hhu, channel_mask %s, image conversion factor %f, mask conversion factor %f\n", start_row, input_height_or_end_row, output_width, channel_stride, channels.to_string().c_str(), image_type_factor, mask_type_factor);
     #endif    
     for (uint_fast16_t y = start_row; y < input_height_or_end_row; ++y)
     {
