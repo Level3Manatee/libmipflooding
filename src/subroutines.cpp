@@ -9,11 +9,6 @@
 #include "helpers/macros.h"
 #include "helpers/helper_functions.h"
 
-/*******************************************
- * SUBROUTINES
- *******************************************/
-#pragma region subroutines
-
 
 template <typename Function, typename... Args>
 void run_threaded(
@@ -50,41 +45,6 @@ void run_threaded(
             thread.join();
         }
     }
-}
-
-
-#define NORMALIZE_CHANNELS \
-    float sum = 0.0f; \
-    for (const uint_fast8_t c : channels) \
-    { \
-        const float component = output_image[output_idx * channel_stride + c] * 2.0f - 1.0f; \
-        sum += component * component; \
-    } \
-    if (sum < 0.0001f) \
-        continue; \
-    const float scale = std::sqrt(sum); \
-    for (const uint_fast8_t c : channels) \
-    { \
-        const float component = output_image[output_idx * channel_stride + c] * 2.0f - 1.0f; \
-        output_image[output_idx * channel_stride + c] = (component / scale + 1.0f) / 2.0f; \
-    }
-
-
-uint8_t libmipflooding::get_mip_count(const uint_fast16_t width, const uint_fast16_t height)
-{
-    return static_cast<uint8_t>(std::log2(std::min(width, height)));
-}
-
-
-uint8_t libmipflooding::channel_mask_from_array(const bool* array, const uint_fast8_t element_count)
-{
-    uint8_t mask = 0;
-    for (uint_fast8_t i = 0; i < element_count; ++i)
-    {
-        if (array[i])
-            mask |= 1 << i;
-    }
-    return mask;
 }
 
 
@@ -147,14 +107,32 @@ INSTANTIATE_TYPES_1(FUNC)
 #undef FUNC
 
 
-void libmipflooding::free_mips_memory(const uint_fast8_t mip_count, float** mips_output, uint8_t** masks_output)
-{
-    for (int i = 0; i < mip_count; ++i)
-    {
-        delete[] mips_output[i];
-        delete[] masks_output[i];
+/**
+ * Re-normalization to unit vector for normal maps
+ */
+#define NORMALIZE_CHANNELS \
+    float sum = 0.0f; \
+    for (const uint_fast8_t c : channels) \
+    { \
+        const float component = output_image[output_idx * channel_stride + c] * 2.0f - 1.0f; \
+        sum += component * component; \
+    } \
+    if (sum < 0.0001f) \
+        continue; \
+    const float scale = std::sqrt(sum); \
+    for (const uint_fast8_t c : channels) \
+    { \
+        const float component = output_image[output_idx * channel_stride + c] * 2.0f - 1.0f; \
+        output_image[output_idx * channel_stride + c] = (component / scale + 1.0f) / 2.0f; \
     }
-}
+
+
+
+
+/*******************************************
+ * SUBROUTINES
+ *******************************************/
+#pragma region subroutines
 
 
 #define FUNC(INPUT_T, INPUT_MASK_T) \
