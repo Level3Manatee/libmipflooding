@@ -3,7 +3,7 @@
 #include <cstdint>
 
 #define LIBMIPFLOODING_VERSION_MAJOR 0
-#define LIBMIPFLOODING_VERSION_MINOR 1
+#define LIBMIPFLOODING_VERSION_MINOR 2
 
 #ifdef _WIN32
     #define EXPORT_SYMBOL __declspec(dllexport)
