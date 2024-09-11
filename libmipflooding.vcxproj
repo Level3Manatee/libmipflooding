@@ -92,6 +92,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\helpers\channel_set.cpp" />
+    <ClCompile Include="src\helpers\helper_functions.cpp" />
     <ClCompile Include="src\subroutines.cpp" />
     <ClCompile Include="src\core_functions.cpp" />
     <ClCompile Include="src\libmipflooding_extern_c.cpp" />
