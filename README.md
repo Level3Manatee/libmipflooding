@@ -13,7 +13,7 @@ Features implemented in this library:
 * can generate weighted mip maps, and optionally re-normalize vectors (for normal maps). Slerp scaling is planned but not yet implemented.
 * includes C-style function exports for easier interfacing with non-C++ code (e.g. Python)
 
-This is a pre-release, more documentation and Linux binaries to follow. I would love to get your feedback!
+This is a pre-release, more documentation to follow. I would love to get your feedback!
 
 
 ### Python wrapper
@@ -24,17 +24,36 @@ A Python wrapper is included, which processes NumPy arrays and mainly implements
 
 The python wrapper is installable using pip:
 
-```
+```shell
 pip install <path_to_libmipflooding>/wrappers/python/
 ```
 
 
+### Building it yourself
+(I don't have an ARM64 machine, this is only tested with AMD64 so far)
+
+#### Windows
+Use your favorite IDE (Visual Studio, Rider, ...) and open the Solution. Building should just work.
+
+#### Linux (and possibly Mac)
+Use CMake and either gcc or Clang
+
+```shell
+mkdir Build
+cd Build
+cmake ../
+cmake --build .
+```
+
+Use `cmake ../ -DCMAKE_BUILD_TYPE=Debug` to enable printing of debug information. 
+
+
 ### TODO
 #### High priority
-* Documentation
+* More documentation
 * input assertions and graceful failure
-* Build config and binaries for Linux (and possibly Mac?)
 
 #### Medium priority
 * Normal map scaling using slerp instead of just re-normalizing
 * Tests
+* building Python package completely from source, without pre-packaged binaries  
