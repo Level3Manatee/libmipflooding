@@ -17,9 +17,9 @@ namespace libmipflooding_c
 #endif
         enum DATA_TYPE : uint8_t
         {
-            UINT8,
-            UINT16,
-            FLOAT32
+            UINT8 = 0,
+            UINT16 = 1,
+            FLOAT32 = 2
         };
         
         /*******************************************
