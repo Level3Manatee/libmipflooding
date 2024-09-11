@@ -88,19 +88,26 @@ uint8_t libmipflooding::channel_mask_from_array(const bool* array, const uint_fa
 }
 
 
-void libmipflooding::convert_linear_to_srgb(
-        const uint_fast16_t width,
-        const uint_fast16_t height_or_end_row,
-        const uint_fast8_t channel_stride,
-        float* image_in_out,
-        const uint8_t channel_mask,
+#define FUNC(OUTPUT_T) \
+void libmipflooding::convert_to_type( \
+        const uint_fast16_t width, \
+        const uint_fast16_t height_or_end_row, \
+        const uint_fast8_t channel_stride, \
+        const float* image_in, \
+        OUTPUT_T* image_out, \
+        const bool convert_srgb, \
+        const uint8_t channel_mask, \
         const uint_fast16_t start_row)
+
+template <typename OutputT>
+FUNC(OutputT)
 {
     const channel_set channels = channel_set(channel_mask, channel_stride);
     const uint_fast16_t output_width = width * 2;
-#ifdef _DEBUG
-    std::printf("Convert linear to sRGB, start row %i, end row %i, output width %i, channel stride %i, channel_mask %s\n", start_row, height_or_end_row, output_width, channel_stride, channels.to_string().c_str());
-#endif    
+    const float image_type_factor = std::is_floating_point<OutputT>::value ? 1.0f : static_cast<float>(std::numeric_limits<OutputT>::max());
+    #ifdef _DEBUG
+    std::printf("Convert to type, start row %i, end row %i, output width %i, channel stride %i, convert to sRGB?: %s, channel_mask %s\n", start_row, height_or_end_row, output_width, channel_stride, (convert_srgb ? "yes" : "no"), channels.to_string().c_str());
+    #endif    
     for (uint_fast16_t y = start_row; y < height_or_end_row; ++y)
     {
         for (uint_fast16_t x = 0; x < width; ++x)
@@ -108,23 +115,36 @@ void libmipflooding::convert_linear_to_srgb(
             const uint32_t idx = (y * width + x) * channel_stride;
             for (const uint8_t c : channels)
             {
-                image_in_out[idx + c] = to_sRGB(image_in_out[idx + c]);
+                if (convert_srgb)
+                    image_out[idx + c] = static_cast<OutputT>(to_sRGB(image_in[idx + c]) * image_type_factor + (std::is_floating_point<OutputT>::value ? 0 : 0.5f));
+                else
+                    image_out[idx + c] = static_cast<OutputT>(image_in[idx + c] * image_type_factor + (std::is_floating_point<OutputT>::value ? 0 : 0.5f));
             }
         }
     }
 }
+INSTANTIATE_TYPES_1(FUNC)
+#undef FUNC
 
 
-void libmipflooding::convert_linear_to_srgb_threaded(
-        const uint_fast16_t width,
-        const uint_fast16_t height_or_end_row,
-        const uint_fast8_t channel_stride,
-        float* image_in_out,
-        const uint8_t channel_mask,
+#define FUNC(OUTPUT_T) \
+void libmipflooding::convert_to_type_threaded( \
+        const uint_fast16_t width, \
+        const uint_fast16_t height_or_end_row, \
+        const uint_fast8_t channel_stride, \
+        const float* image_in, \
+        OUTPUT_T* image_out, \
+        const bool convert_srgb, \
+        const uint8_t channel_mask, \
         const uint8_t max_threads)
+
+template <typename OutputT>
+FUNC(OutputT)
 {
-    run_threaded(convert_linear_to_srgb, max_threads, width, height_or_end_row, channel_stride, image_in_out, channel_mask);
+    run_threaded(convert_to_type<OutputT>, max_threads, width, height_or_end_row, channel_stride, image_in, image_out, convert_srgb, channel_mask);
 }
+INSTANTIATE_TYPES_1(FUNC)
+#undef FUNC
 
 
 void libmipflooding::free_mips_memory(const uint_fast8_t mip_count, float** mips_output, uint8_t** masks_output)

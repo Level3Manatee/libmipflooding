@@ -51,21 +51,26 @@ def generate_mips(
         is_normal_map: bool = False,
         channel_mask: int = 0,
         scale_alpha_unweighted: bool = False,
-        composite_mips: bool = True
+        composite_mips: bool = True,
+        output_float: bool = False
         ) -> Union[list, None]:
     """Coverage-weighted mip maps
 
-    Generates coverage-weighted mip maps and returns them as a list of float (0..1) NumPy arrays (excluding input image / mip 0).
+    Generates coverage-weighted mip maps and returns them as a list of NumPy arrays, matching the input type
+    (output does not include input image / mip 0).
 
     :param image: ndarray[ndim=3], types uint8 / uint16 / float, expects 0..1 range for float
     :param coverage_mask: None; ndarray[ndim=1 or 2], type uint8, linear. If None, uses last channel of image as coverage mask.
-    :param max_threads: 0; Number of threads, 0 = auto (half of available threads, which amounts to number of hardware cores for machines with SMT/HyperThreading)
+    :param max_threads: 0; Number of threads, 0 = auto (half of available threads, which amounts to number of
+           hardware cores for machines with SMT/HyperThreading)
     :param coverage_threshold: 0.999; Threshold for mask binarization
     :param convert_srgb: False; Perform sRGB transformations (to linear and back) for correct scaling of sRGB textures
     :param is_normal_map: False; Normalize output pixels (for normal maps / encoded vectors)
     :param channel_mask: 0; Bit mask for processing a subset of channels, 0 = all channels
     :param scale_alpha_unweighted: False; Perform unweighted scaling on last channel? False = preserve coverage
-    :param composite_mips: True; Composite mips from bottom to top to fill holes? Set this and scale_alpha_unweighted to False for alpha coverage preservation
+    :param composite_mips: True; Composite mips from bottom to top to fill holes? Set this
+           and scale_alpha_unweighted to False for alpha coverage preservation
+    :param output_float: Output mips as float
     :return: list of ndarray[dtype=float]'s, or None on failure
     """
     # TODO sanity check for inputs
@@ -91,7 +96,7 @@ def generate_mips(
         mask_buffer_pointer = c_void_p(None)
 
     mip_count = get_mip_count(image_width, image_height)
-    mips_output = (ctypes.POINTER(float_t) * mip_count)()
+    mips_output_float = (ctypes.POINTER(float_t) * mip_count)()
     masks_output = (ctypes.POINTER(uint8_t) * mip_count)()
 
     # generate coverage-weighted mip levels
@@ -102,7 +107,7 @@ def generate_mips(
         uint16_t(image_height),
         uint8_t(channel_stride),
         mask_buffer_pointer,
-        mips_output,
+        mips_output_float,
         masks_output,
         float_t(coverage_threshold),
         bool_t(convert_srgb),
@@ -114,7 +119,7 @@ def generate_mips(
     if composite_mips:
         # fill holes by compositing mips from bottom to top
         libmipflooding.composite_mips(
-            mips_output,
+            mips_output_float,
             masks_output,
             uint16_t(image_width),
             uint16_t(image_height),
@@ -125,27 +130,25 @@ def generate_mips(
     mip_width = image_width
     mip_height = image_height
     mips_list = []
+    output_type = np.float32 if output_float else image.dtype
     for i in range(mip_count):
         mip_width = mip_width // 2
         mip_height = mip_height // 2
-        if convert_srgb:
-            libmipflooding.convert_linear_to_srgb_threaded(
-                uint16_t(mip_width),
-                uint16_t(mip_height),
-                uint8_t(channel_stride),
-                mips_output[i],
-                uint8_t(channel_mask),
-                uint8_t(max_threads))
-        np_array = np.ctypeslib.as_array(
-            mips_output[i],
-            [mip_height, mip_width, channel_stride]
-        )
-        mips_list.append(np_array.copy())
+        mips_list.append(np.ndarray((mip_width, mip_height, channel_stride), dtype=output_type, order="C"))
+        libmipflooding.convert_to_type_threaded(
+            uint16_t(mip_width),
+            uint16_t(mip_height),
+            uint8_t(channel_stride),
+            mips_output_float[i],
+            c_void_p(mips_list[i].ctypes.data),
+            image_data_type,
+            bool_t(convert_srgb),
+            uint8_t(channel_mask),
+            uint8_t(max_threads))
 
-    libmipflooding.free_mips_memory(uint8_t(mip_count), mips_output, masks_output)
+    libmipflooding.free_mips_memory(uint8_t(mip_count), mips_output_float, masks_output)
 
     return mips_list
-
 
 
 def flood_image(

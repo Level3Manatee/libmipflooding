@@ -15,27 +15,39 @@ extern "C" {
     }
     
     
-    void libmipflooding_c::convert_linear_to_srgb(
+    EXPORT_SYMBOL void libmipflooding_c::convert_to_type(
             const uint_fast16_t width,
             const uint_fast16_t height_or_end_row,
             const uint_fast8_t channel_stride,
-            float* image_in_out,
+            const float* image_in,
+            void* image_out,
+            const DATA_TYPE out_data_type,
+            const bool convert_srgb,
             const uint8_t channel_mask,
-            const uint16_t start_row)
+            const uint_fast16_t start_row)
     {
-        libmipflooding::convert_linear_to_srgb(width, height_or_end_row, channel_stride, image_in_out, channel_mask, start_row);
+        #define CALL(IMAGE_T) \
+            libmipflooding::convert_to_type(width, height_or_end_row, channel_stride, image_in, static_cast<IMAGE_T*>(image_out), convert_srgb, channel_mask, start_row);
+        CALL_1_PARAM(out_data_type)
+        #undef CALL
     }
     
     
-    void libmipflooding_c::convert_linear_to_srgb_threaded(
+    EXPORT_SYMBOL void libmipflooding_c::convert_to_type_threaded(
             const uint_fast16_t width,
             const uint_fast16_t height_or_end_row,
             const uint_fast8_t channel_stride,
-            float* image_in_out,
+            const float* image_in,
+            void* image_out,
+            const DATA_TYPE out_data_type,
+            const bool convert_srgb,
             const uint8_t channel_mask,
             const uint8_t max_threads)
     {
-        libmipflooding::convert_linear_to_srgb_threaded(width, height_or_end_row, channel_stride, image_in_out, channel_mask, max_threads);
+        #define CALL(IMAGE_T) \
+        libmipflooding::convert_to_type_threaded(width, height_or_end_row, channel_stride, image_in, static_cast<IMAGE_T*>(image_out), convert_srgb, channel_mask, max_threads);
+        CALL_1_PARAM(out_data_type)
+        #undef CALL
     }
     
     

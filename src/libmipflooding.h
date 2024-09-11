@@ -18,24 +18,29 @@ namespace libmipflooding
      *******************************************/
     #pragma region helper_functions
 
-    void convert_linear_to_srgb(
-    EXPORT_SYMBOL void convert_linear_to_srgb(
+    template <typename OutputT>
+    EXPORT_SYMBOL void convert_to_type(
         const uint_fast16_t width,
         const uint_fast16_t height_or_end_row,
         const uint_fast8_t channel_stride,
-        float* image_in_out,
-        const uint8_t channel_mask,
-        const uint_fast16_t start_row
+        const float* image_in,
+        OutputT* image_out,
+        const bool convert_srgb = false,
+        const uint8_t channel_mask = 0,
+        const uint_fast16_t start_row = 0
     );
 
-    void convert_linear_to_srgb_threaded(
-    EXPORT_SYMBOL void convert_linear_to_srgb_threaded(
+    template <typename OutputT>
+    EXPORT_SYMBOL void convert_to_type_threaded(
         const uint_fast16_t width,
         const uint_fast16_t height_or_end_row,
         const uint_fast8_t channel_stride,
-        float* image_in_out,
-        const uint8_t channel_mask,
-        const uint_fast8_t max_threads
+        const float* image_in,
+        OutputT* image_out,
+        const bool convert_srgb = false,
+        const uint8_t channel_mask = 0,
+        const uint8_t max_threads = 0
+    );
     
     EXPORT_SYMBOL uint8_t get_mip_count(
         const uint_fast16_t width,
@@ -52,7 +57,7 @@ namespace libmipflooding
         float** mips_output,
         uint8_t** masks_output
     );
-    
+
     #pragma endregion helper_functions
 
     
