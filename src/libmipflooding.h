@@ -70,7 +70,7 @@ namespace libmipflooding
     EXPORT_SYMBOL void convert_and_scale_down_weighted(
         const uint_fast16_t output_width,
         const uint_fast16_t output_height_or_end_row,
-        const uint_fast8_t stride,
+        const uint_fast8_t channel_stride,
         const InputT* input_image,
         const InputMaskT* input_mask,
         float* output_image,
@@ -87,7 +87,7 @@ namespace libmipflooding
     EXPORT_SYMBOL void convert_and_scale_down_weighted_threaded(
         const uint_fast16_t output_width,
         const uint_fast16_t output_height,
-        const uint_fast8_t stride,
+        const uint_fast8_t channel_stride,
         const InputT* input_image,
         const InputMaskT* input_mask,
         float* output_image,
@@ -103,7 +103,7 @@ namespace libmipflooding
     EXPORT_SYMBOL void scale_down_weighted(
         const uint_fast16_t output_width,
         const uint_fast16_t output_height_or_end_row,
-        const uint_fast8_t stride,
+        const uint_fast8_t channel_stride,
         const float* input_image,
         const uint8_t* input_mask,
         float* output_image,
@@ -117,7 +117,7 @@ namespace libmipflooding
     EXPORT_SYMBOL void scale_down_weighted_threaded(
         const uint_fast16_t output_width,
         const uint_fast16_t output_height,
-        const uint_fast8_t stride,
+        const uint_fast8_t channel_stride,
         const float* input_image,
         const uint8_t* input_mask,
         float* output_image,
