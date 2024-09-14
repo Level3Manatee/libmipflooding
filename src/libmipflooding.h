@@ -288,7 +288,7 @@ namespace libmipflooding
         const uint_fast16_t image_width,
         const uint_fast16_t image_height,
         const uint_fast8_t channel_stride,
-        const MaskT* image_mask,
+        const MaskT* image_mask = nullptr,
         const float coverage_threshold = 0.999f,
         const bool convert_srgb = false,
         const bool is_normal_map = false,
