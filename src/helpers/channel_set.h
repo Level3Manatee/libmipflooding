@@ -1,7 +1,13 @@
 #pragma once
 #include <string>
 
-/// Helper class to allow iterating over a subset of channels
+/**
+ * Channel set helper class
+ *
+ * Enables iteration over a subset of channels. Instances are usually constructed from a bit mask, within the subroutines.
+ *
+ * Bit masks can be generated using channel_mask_from_array().
+ */
 class channel_set
 {
 private:
@@ -19,8 +25,7 @@ public:
         explicit iterator(const channel_set* ptr, const uint_fast8_t index) : ptr_(ptr), current_index_(index){}
         iterator& operator++() { ++current_index_; return *this; }
         uint_fast8_t operator*() const { return ptr_->channels_[current_index_]; }
-        bool operator!=(const iterator& other) const
-        { return current_index_ != other.current_index_; }
+        bool operator!=(const iterator& other) const { return current_index_ != other.current_index_; }
     };
 
     explicit channel_set(const uint8_t channel_mask, const uint_fast8_t channel_stride);

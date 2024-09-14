@@ -10,6 +10,22 @@
 #include "helpers/helper_functions.h"
 
 
+/**
+ * Threading helper function
+ *
+ * Automatically divvies up the work load into threads, up to max_threads. Further limits the number of threads so that
+ * each thread has at least 4 KB of data to process (assuming float input data).
+ * 
+ * @tparam Function   
+ * @tparam Args
+ * @param function    The function to run as threads
+ * @param max_threads Maximum number of threads to run. 0 = auto (half of available threads,
+ *                    which amounts to number of hardware cores for machines with SMT/HyperThreading)
+ * @param row_width   Row with of the input data (i.e. number of pixels)
+ * @param row_count   Number of rows to process, usually pixel height of input data
+ * @param channel_stride Number of total channels in image data
+ * @param args        Further arguments to be passed to the function
+ */
 template <typename Function, typename... Args>
 void run_threaded(
         Function&& function,
