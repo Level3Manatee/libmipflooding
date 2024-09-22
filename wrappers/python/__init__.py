@@ -6,6 +6,7 @@ from enum import IntEnum
 import os.path
 from typing import Union
 
+
 path = os.path.dirname(__file__)
 
 # Currently assumes Win or Linux on AMD64. Compile libmipflooding and replace file(s) if you need e.g. Mac and/or ARM64.
@@ -15,7 +16,7 @@ else:
     libmipflooding = ctypes.CDLL(path + '/binaries/libmipflooding.so')
 
 
-class DATA_TYPE(IntEnum):
+class _DATA_TYPE(IntEnum):
     UINT8 = 0
     UINT16 = 1
     FLOAT32 = 2
@@ -23,6 +24,7 @@ class DATA_TYPE(IntEnum):
 def get_mip_count(width: int, height: int) -> int:
     """
     Returns the number of mip levels for given resolution
+
     :param width: width in px
     :param height: height in px
     :return: number of mip levels
@@ -35,6 +37,7 @@ def get_mip_count(width: int, height: int) -> int:
 def get_channel_mask(channel_mask: list, channel_stride: int = 0) -> int:
     """
     Returns a channel bit mask
+
     :param channel_mask: List of bools or ints, 1/true = process, 0/false = ignore
     :param channel_stride: (optional) number of channels in image data, 0 = infer from list length
     :return: integer bit mask
@@ -83,11 +86,11 @@ def generate_mips(
     # TODO sanity check for inputs
     image_flat = np.ascontiguousarray(image.copy())
     if image.dtype == np.uint8:
-        image_data_type = DATA_TYPE.UINT8
+        image_data_type = _DATA_TYPE.UINT8
     elif image.dtype == np.uint16:
-        image_data_type = DATA_TYPE.UINT16
+        image_data_type = _DATA_TYPE.UINT16
     elif image.dtype == np.float32:
-        image_data_type = DATA_TYPE.FLOAT32
+        image_data_type = _DATA_TYPE.FLOAT32
     else:
         return None
 
@@ -194,11 +197,11 @@ def flood_image(
     # TODO sanity check for inputs
     image_flat = np.ascontiguousarray(image.copy())
     if image.dtype == np.uint8:
-        image_data_type = DATA_TYPE.UINT8
+        image_data_type = _DATA_TYPE.UINT8
     elif image.dtype == np.uint16:
-        image_data_type = DATA_TYPE.UINT16
+        image_data_type = _DATA_TYPE.UINT16
     elif image.dtype == np.float32:
-        image_data_type = DATA_TYPE.FLOAT32
+        image_data_type = _DATA_TYPE.FLOAT32
     else:
         return None
 
@@ -210,11 +213,11 @@ def flood_image(
     if coverage_mask is not None:
         mask_flat = np.ascontiguousarray(coverage_mask.copy())
         if image.dtype == np.uint8:
-            mask_data_type = DATA_TYPE.UINT8
+            mask_data_type = _DATA_TYPE.UINT8
         elif image.dtype == np.uint16:
-            mask_data_type = DATA_TYPE.UINT16
+            mask_data_type = _DATA_TYPE.UINT16
         elif image.dtype == np.float32:
-            mask_data_type = DATA_TYPE.FLOAT32
+            mask_data_type = _DATA_TYPE.FLOAT32
         else:
             return None
         mask_buffer_pointer = c_void_p(mask_flat.ctypes.data)
