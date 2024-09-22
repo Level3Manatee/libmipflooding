@@ -1,0 +1,10 @@
+Helper functions
+================
+
+.. contents:: Table of Contents
+    :local:
+
+.. cpp:namespace-push:: libmipflooding
+
+.. doxygengroup:: helper_functions
+    :content-only:

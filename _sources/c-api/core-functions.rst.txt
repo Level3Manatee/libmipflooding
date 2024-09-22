@@ -1,0 +1,10 @@
+Core functions (C API)
+======================
+
+.. contents:: Table of Contents
+    :local:
+
+.. cpp:namespace-push:: libmipflooding_c
+
+.. doxygengroup:: core_functions_c
+    :content-only:

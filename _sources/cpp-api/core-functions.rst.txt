@@ -1,0 +1,10 @@
+Core functions
+==============
+
+.. contents:: Table of Contents
+    :local:
+
+.. cpp:namespace-push:: libmipflooding
+
+.. doxygengroup:: core_functions
+    :content-only:

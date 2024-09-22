@@ -1,0 +1,220 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C API &mdash; libmipflooding  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=66b59bf7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=4db067b0" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/break-words.js?v=8491e5ed"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Core functions (C API)" href="core-functions.html" />
+    <link rel="prev" title="Helper functions" href="../cpp-api/helper-functions.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            libmipflooding
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started.html">Getting started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started.html#input-data-and-processing-options">Input data and processing options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../mip-flooding.html">Mip-flooding an image</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../mip-flooding.html#using-the-flood-image-function">Using the flood_image() function</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../mip-flooding.html#executing-the-subroutines-manually">Executing the subroutines manually</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../generating-mip-maps.html">Generating mip maps</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../generating-mip-maps.html#generate-mips">generate_mips()</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../generating-mip-maps.html#composite-mips">composite_mips()</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../cpp-api/index.html">C++ API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../cpp-api/core-functions.html">Core functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../cpp-api/core-functions.html#_CPPv4I00EN14libmipflooding13generate_mipsEbP6ImageTK13uint_fast16_tK13uint_fast16_tK12uint_fast8_tPK5MaskTPPfPP7uint8_tKfKbKbK7uint8_tKbK12uint_fast8_t"><code class="docutils literal notranslate"><span class="pre">generate_mips()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cpp-api/core-functions.html#_CPPv4N14libmipflooding14composite_mipsEPPfPPK7uint8_tK13uint_fast16_tK13uint_fast16_tK12uint_fast8_tK7uint8_tK12uint_fast8_t"><code class="docutils literal notranslate"><span class="pre">composite_mips()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cpp-api/core-functions.html#_CPPv4I00EN14libmipflooding11flood_imageEbP6ImageTK13uint_fast16_tK13uint_fast16_tK12uint_fast8_tPK5MaskTKfKbKbK7uint8_tKbK12uint_fast8_t"><code class="docutils literal notranslate"><span class="pre">flood_image()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp-api/subroutines.html">Subroutines (C++ API)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../cpp-api/subroutines.html#_CPPv4I00EN14libmipflooding31convert_and_scale_down_weightedEvK13uint_fast16_tK13uint_fast16_tK12uint_fast8_tPK6InputTPK10InputMaskTPfP7uint8_tKfKbKbK7uint8_tKbK13uint_fast16_t"><code class="docutils literal notranslate"><span class="pre">convert_and_scale_down_weighted()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cpp-api/subroutines.html#_CPPv4I00EN14libmipflooding40convert_and_scale_down_weighted_threadedEvK13uint_fast16_tK13uint_fast16_tK12uint_fast8_tPK6InputTPK10InputMaskTPfP7uint8_tKfKbKbK7uint8_tKbK12uint_fast8_t"><code class="docutils literal notranslate"><span class="pre">convert_and_scale_down_weighted_threaded()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cpp-api/subroutines.html#_CPPv4N14libmipflooding19scale_down_weightedEK13uint_fast16_tK13uint_fast16_tK12uint_fast8_tPKfPK7uint8_tPfP7uint8_tKbK7uint8_tKbK13uint_fast16_t"><code class="docutils literal notranslate"><span class="pre">scale_down_weighted()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cpp-api/subroutines.html#_CPPv4N14libmipflooding28scale_down_weighted_threadedEK13uint_fast16_tK13uint_fast16_tK12uint_fast8_tPKfPK7uint8_tPfP7uint8_tKbK7uint8_tKbK12uint_fast8_t"><code class="docutils literal notranslate"><span class="pre">scale_down_weighted_threaded()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cpp-api/subroutines.html#_CPPv4N14libmipflooding12composite_upEK13uint_fast16_tK13uint_fast16_tK12uint_fast8_tPKfPfPK7uint8_tK7uint8_tK13uint_fast16_t"><code class="docutils literal notranslate"><span class="pre">composite_up()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cpp-api/subroutines.html#_CPPv4N14libmipflooding21composite_up_threadedEK13uint_fast16_tK13uint_fast16_tK12uint_fast8_tPKfPfPK7uint8_tK7uint8_tK12uint_fast8_t"><code class="docutils literal notranslate"><span class="pre">composite_up_threaded()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cpp-api/subroutines.html#_CPPv4I00EN14libmipflooding27final_composite_and_convertEvK13uint_fast16_tK13uint_fast16_tK12uint_fast8_tPKfP7OutputTPK5MaskTKfKbK7uint8_tK13uint_fast16_t"><code class="docutils literal notranslate"><span class="pre">final_composite_and_convert()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cpp-api/subroutines.html#_CPPv4I00EN14libmipflooding36final_composite_and_convert_threadedEvK13uint_fast16_tK13uint_fast16_tK12uint_fast8_tPKfP7OutputTPK5MaskTKfKbK7uint8_tK12uint_fast8_t"><code class="docutils literal notranslate"><span class="pre">final_composite_and_convert_threaded()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../cpp-api/helper-functions.html">Helper functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../cpp-api/helper-functions.html#_CPPv4I0EN14libmipflooding15convert_to_typeEvK13uint_fast16_tK13uint_fast16_tK12uint_fast8_tPKfP7OutputTKbK7uint8_tK13uint_fast16_t"><code class="docutils literal notranslate"><span class="pre">convert_to_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cpp-api/helper-functions.html#_CPPv4I0EN14libmipflooding24convert_to_type_threadedEvK13uint_fast16_tK13uint_fast16_tK12uint_fast8_tPKfP7OutputTKbK7uint8_tK7uint8_t"><code class="docutils literal notranslate"><span class="pre">convert_to_type_threaded()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cpp-api/helper-functions.html#_CPPv4N14libmipflooding13get_mip_countEK13uint_fast16_tK13uint_fast16_t"><code class="docutils literal notranslate"><span class="pre">get_mip_count()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cpp-api/helper-functions.html#_CPPv4N14libmipflooding23channel_mask_from_arrayEPKbK12uint_fast8_t"><code class="docutils literal notranslate"><span class="pre">channel_mask_from_array()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../cpp-api/helper-functions.html#_CPPv4N14libmipflooding16free_mips_memoryEK12uint_fast8_tPPfPP7uint8_t"><code class="docutils literal notranslate"><span class="pre">free_mips_memory()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">C API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="core-functions.html">Core functions (C API)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="core-functions.html#_CPPv4N16libmipflooding_c13generate_mipsEPvK9DATA_TYPEK8uint16_tK8uint16_tK7uint8_tPK7uint8_tPPfPP7uint8_tKfKbKbK7uint8_tKbK7uint8_t"><code class="docutils literal notranslate"><span class="pre">generate_mips()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core-functions.html#_CPPv4N16libmipflooding_c14composite_mipsEPPfPPK7uint8_tK8uint16_tK8uint16_tK7uint8_tK7uint8_tK7uint8_t"><code class="docutils literal notranslate"><span class="pre">composite_mips()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="core-functions.html#_CPPv4N16libmipflooding_c11flood_imageEPvK9DATA_TYPEK8uint16_tK8uint16_tK7uint8_tPKvK9DATA_TYPEKfKbKbK7uint8_tKbK7uint8_t"><code class="docutils literal notranslate"><span class="pre">flood_image()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="subroutines.html">Subroutines (C API)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="subroutines.html#_CPPv4N16libmipflooding_c31convert_and_scale_down_weightedEK8uint16_tK8uint16_tK7uint8_tPKvK9DATA_TYPEPKvK9DATA_TYPEPfP7uint8_tKfKbKbK7uint8_tKbK8uint16_t"><code class="docutils literal notranslate"><span class="pre">convert_and_scale_down_weighted()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="subroutines.html#_CPPv4N16libmipflooding_c40convert_and_scale_down_weighted_threadedEK8uint16_tK8uint16_tK7uint8_tPKvK9DATA_TYPEPKvK9DATA_TYPEPfP7uint8_tKfKbKbK7uint8_tKbK7uint8_t"><code class="docutils literal notranslate"><span class="pre">convert_and_scale_down_weighted_threaded()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="subroutines.html#_CPPv4N16libmipflooding_c19scale_down_weightedEK8uint16_tK8uint16_tK7uint8_tPKfPK7uint8_tPfP7uint8_tKbK7uint8_tKbK8uint16_t"><code class="docutils literal notranslate"><span class="pre">scale_down_weighted()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="subroutines.html#_CPPv4N16libmipflooding_c28scale_down_weighted_threadedEK8uint16_tK8uint16_tK7uint8_tPKfPK7uint8_tPfP7uint8_tKbK7uint8_tKbK7uint8_t"><code class="docutils literal notranslate"><span class="pre">scale_down_weighted_threaded()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="subroutines.html#_CPPv4N16libmipflooding_c12composite_upEK8uint16_tK8uint16_tK7uint8_tPKfPfPK7uint8_tK7uint8_tK8uint16_t"><code class="docutils literal notranslate"><span class="pre">composite_up()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="subroutines.html#_CPPv4N16libmipflooding_c21composite_up_threadedEK8uint16_tK8uint16_tK7uint8_tPKfPfPK7uint8_tK7uint8_tK7uint8_t"><code class="docutils literal notranslate"><span class="pre">composite_up_threaded()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="subroutines.html#_CPPv4N16libmipflooding_c27final_composite_and_convertEK8uint16_tK8uint16_tK7uint8_tPKfPvK9DATA_TYPEPKvK9DATA_TYPEKfKbK7uint8_tK8uint16_t"><code class="docutils literal notranslate"><span class="pre">final_composite_and_convert()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="subroutines.html#_CPPv4N16libmipflooding_c36final_composite_and_convert_threadedEK8uint16_tK8uint16_tK7uint8_tPKfPvK9DATA_TYPEPKvK9DATA_TYPEKfKbK7uint8_tK7uint8_t"><code class="docutils literal notranslate"><span class="pre">final_composite_and_convert_threaded()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="helper-functions.html">Helper functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="helper-functions.html#_CPPv4N16libmipflooding_c15convert_to_typeEK13uint_fast16_tK13uint_fast16_tK12uint_fast8_tPKfPvK9DATA_TYPEKbK7uint8_tK13uint_fast16_t"><code class="docutils literal notranslate"><span class="pre">convert_to_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="helper-functions.html#_CPPv4N16libmipflooding_c24convert_to_type_threadedEK13uint_fast16_tK13uint_fast16_tK12uint_fast8_tPKfPvK9DATA_TYPEKbK7uint8_tK7uint8_t"><code class="docutils literal notranslate"><span class="pre">convert_to_type_threaded()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="helper-functions.html#_CPPv4N16libmipflooding_c13get_mip_countEK8uint16_tK8uint16_t"><code class="docutils literal notranslate"><span class="pre">get_mip_count()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="helper-functions.html#_CPPv4N16libmipflooding_c23channel_mask_from_arrayEPKbK7uint8_t"><code class="docutils literal notranslate"><span class="pre">channel_mask_from_array()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="helper-functions.html#_CPPv4N16libmipflooding_c16free_mips_memoryEK12uint_fast8_tPPfPP7uint8_t"><code class="docutils literal notranslate"><span class="pre">free_mips_memory()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="data-type.html">DATA_TYPE</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../python/index.html">Python wrapper</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../python/functions.html">Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../python/functions.html#libmipflooding.flood_image"><code class="docutils literal notranslate"><span class="pre">flood_image()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python/functions.html#libmipflooding.generate_mips"><code class="docutils literal notranslate"><span class="pre">generate_mips()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python/functions.html#libmipflooding.get_channel_mask"><code class="docutils literal notranslate"><span class="pre">get_channel_mask()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../python/functions.html#libmipflooding.get_mip_count"><code class="docutils literal notranslate"><span class="pre">get_mip_count()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">libmipflooding</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">C API</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/c-api/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="c-api">
+<h1>C API<a class="headerlink" href="#c-api" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="core-functions.html">Core functions (C API)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="core-functions.html#_CPPv4N16libmipflooding_c13generate_mipsEPvK9DATA_TYPEK8uint16_tK8uint16_tK7uint8_tPK7uint8_tPPfPP7uint8_tKfKbKbK7uint8_tKbK7uint8_t"><code class="docutils literal notranslate"><span class="pre">generate_mips()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core-functions.html#_CPPv4N16libmipflooding_c14composite_mipsEPPfPPK7uint8_tK8uint16_tK8uint16_tK7uint8_tK7uint8_tK7uint8_t"><code class="docutils literal notranslate"><span class="pre">composite_mips()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="core-functions.html#_CPPv4N16libmipflooding_c11flood_imageEPvK9DATA_TYPEK8uint16_tK8uint16_tK7uint8_tPKvK9DATA_TYPEKfKbKbK7uint8_tKbK7uint8_t"><code class="docutils literal notranslate"><span class="pre">flood_image()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="subroutines.html">Subroutines (C API)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="subroutines.html#_CPPv4N16libmipflooding_c31convert_and_scale_down_weightedEK8uint16_tK8uint16_tK7uint8_tPKvK9DATA_TYPEPKvK9DATA_TYPEPfP7uint8_tKfKbKbK7uint8_tKbK8uint16_t"><code class="docutils literal notranslate"><span class="pre">convert_and_scale_down_weighted()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="subroutines.html#_CPPv4N16libmipflooding_c40convert_and_scale_down_weighted_threadedEK8uint16_tK8uint16_tK7uint8_tPKvK9DATA_TYPEPKvK9DATA_TYPEPfP7uint8_tKfKbKbK7uint8_tKbK7uint8_t"><code class="docutils literal notranslate"><span class="pre">convert_and_scale_down_weighted_threaded()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="subroutines.html#_CPPv4N16libmipflooding_c19scale_down_weightedEK8uint16_tK8uint16_tK7uint8_tPKfPK7uint8_tPfP7uint8_tKbK7uint8_tKbK8uint16_t"><code class="docutils literal notranslate"><span class="pre">scale_down_weighted()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="subroutines.html#_CPPv4N16libmipflooding_c28scale_down_weighted_threadedEK8uint16_tK8uint16_tK7uint8_tPKfPK7uint8_tPfP7uint8_tKbK7uint8_tKbK7uint8_t"><code class="docutils literal notranslate"><span class="pre">scale_down_weighted_threaded()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="subroutines.html#_CPPv4N16libmipflooding_c12composite_upEK8uint16_tK8uint16_tK7uint8_tPKfPfPK7uint8_tK7uint8_tK8uint16_t"><code class="docutils literal notranslate"><span class="pre">composite_up()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="subroutines.html#_CPPv4N16libmipflooding_c21composite_up_threadedEK8uint16_tK8uint16_tK7uint8_tPKfPfPK7uint8_tK7uint8_tK7uint8_t"><code class="docutils literal notranslate"><span class="pre">composite_up_threaded()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="subroutines.html#_CPPv4N16libmipflooding_c27final_composite_and_convertEK8uint16_tK8uint16_tK7uint8_tPKfPvK9DATA_TYPEPKvK9DATA_TYPEKfKbK7uint8_tK8uint16_t"><code class="docutils literal notranslate"><span class="pre">final_composite_and_convert()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="subroutines.html#_CPPv4N16libmipflooding_c36final_composite_and_convert_threadedEK8uint16_tK8uint16_tK7uint8_tPKfPvK9DATA_TYPEPKvK9DATA_TYPEKfKbK7uint8_tK7uint8_t"><code class="docutils literal notranslate"><span class="pre">final_composite_and_convert_threaded()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="helper-functions.html">Helper functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="helper-functions.html#_CPPv4N16libmipflooding_c15convert_to_typeEK13uint_fast16_tK13uint_fast16_tK12uint_fast8_tPKfPvK9DATA_TYPEKbK7uint8_tK13uint_fast16_t"><code class="docutils literal notranslate"><span class="pre">convert_to_type()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helper-functions.html#_CPPv4N16libmipflooding_c24convert_to_type_threadedEK13uint_fast16_tK13uint_fast16_tK12uint_fast8_tPKfPvK9DATA_TYPEKbK7uint8_tK7uint8_t"><code class="docutils literal notranslate"><span class="pre">convert_to_type_threaded()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helper-functions.html#_CPPv4N16libmipflooding_c13get_mip_countEK8uint16_tK8uint16_t"><code class="docutils literal notranslate"><span class="pre">get_mip_count()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helper-functions.html#_CPPv4N16libmipflooding_c23channel_mask_from_arrayEPKbK7uint8_t"><code class="docutils literal notranslate"><span class="pre">channel_mask_from_array()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="helper-functions.html#_CPPv4N16libmipflooding_c16free_mips_memoryEK12uint_fast8_tPPfPP7uint8_t"><code class="docutils literal notranslate"><span class="pre">free_mips_memory()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="data-type.html">DATA_TYPE</a></li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../cpp-api/helper-functions.html" class="btn btn-neutral float-left" title="Helper functions" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="core-functions.html" class="btn btn-neutral float-right" title="Core functions (C API)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Jan Ortgies.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

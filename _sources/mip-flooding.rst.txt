@@ -1,0 +1,36 @@
+Mip-flooding an image
+=====================
+
+The central function of libmipflooding is processing an image using the Mip Flooding algorithm.
+There two ways to flood an image:
+
+Using the flood_image() function
+--------------------------------
+.. api:: All APIs
+
+which takes an input image, an optional coverage mask, a number of processing options, and outputs a mip-flooded image
+
+* :cpp:func:`C++ API<libmipflooding::flood_image>`
+* :cpp:func:`C API<libmipflooding_c::flood_image>`
+* :py:func:`Python wrapper <libmipflooding.flood_image>`
+
+
+Executing the subroutines manually
+----------------------------------
+.. api:: C++/C API
+
+Calling them in this order:
+
+1. | **convert_and_scale_down_weighted()**
+   | which processes the input image and scales it down to half its size
+2. | **scale_down_weighted()** in a loop,
+   | halving the resolution in each iteration, until one side reaches 1px
+3. | **composite_up()** in a loop,
+   | which composites mip levels together in pairs, starting with the smallest
+4. | **final_composite_and_convert()**
+   | which doubles the resolution of the largest mip, and composites it with the original image
+
+Subroutines:
+
+* :doc:`C++ API</cpp-api/subroutines>`
+* :doc:`C API</c-api/subroutines>`

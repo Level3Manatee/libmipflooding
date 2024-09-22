@@ -1,0 +1,10 @@
+Subroutines (C API)
+===================
+
+.. contents:: Table of Contents
+    :local:
+
+.. cpp:namespace-push:: libmipflooding_c
+
+.. doxygengroup:: subroutines_c
+    :content-only:

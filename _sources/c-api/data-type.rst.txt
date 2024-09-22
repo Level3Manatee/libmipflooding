@@ -1,0 +1,7 @@
+DATA_TYPE
+=========
+
+.. cpp:namespace-push:: libmipflooding_c
+
+.. doxygenenum:: libmipflooding_c::DATA_TYPE
+    :no-link:

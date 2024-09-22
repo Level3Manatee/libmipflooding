@@ -1,0 +1,10 @@
+C API
+=====
+
+.. toctree::
+    :glob:
+
+    ./core-functions
+    ./subroutines
+    ./helper-functions
+    ./data-type

@@ -1,0 +1,351 @@
+:root {
+    --str-char-color: hsl(41, 89%, 37%);
+    --keyword-color: hsl(0, 0%, 44%);
+    --type-color: hsl(190, 100%, 27%);
+    --type-bool-color: hsl(267, 100%, 35%);
+    --type-int-color: hsl(190, 100%, 27%);
+    --type-float-color: hsl(210, 90%, 40%);
+    --template-type-color: hsl(98, 100%, 25%);
+    --number-color: hsl(156, 30%, 35%);
+    --name-color: hsl(0, 0%, 0%);
+    --link-color: hsl(205, 65%, 45%);
+}
+
+
+/***** Layout *****/
+
+.wy-body-for-nav {
+    background: hsl(0, 0%, 90%);
+}
+
+.wy-grid-for-nav {
+    position: relative;
+    width: auto;
+    height: auto;
+    left: calc((100% - min(100%, 1100px)) / 2 * 0.75);
+    margin: 0;
+    max-width: 1100px;
+    box-shadow: -3px 0 10px hsla(0, 0%, 0%, 0.2);
+    outline: 1px solid  hsl(0, 0%, 75%);
+}
+
+.wy-body-for-nav,
+.wy-nav-content-wrap,
+.wy-nav-content {
+    min-height: 100vh;
+}
+
+@media screen and (min-width: 769px) {
+    .wy-nav-side {
+        left: auto;
+    }
+}
+
+footer {
+    margin-top: 48px;
+}
+
+
+
+/***** Navigation *****/
+
+.wy-menu-vertical li button.toctree-expand::before {
+    color: hsl(0, 0%, 60%);
+}
+
+.wy-menu-vertical li.current button.toctree-expand::before {
+    color: inherit;
+}
+
+[role="navigation"] .break-words span {
+    display: inline-block;
+}
+
+.wy-breadcrumbs > li {
+    display: inline;
+}
+
+.rst-content code.xref {
+    font-size: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+}
+
+
+
+/***** Typography *****/
+
+.rst-content :is(h2, h3, h4, h5) {
+    margin-top: 24px;
+    margin-bottom: 12px;
+}
+
+a {
+    color: var(--link-color)
+}
+
+.rst-content a {
+    text-decoration: underline;
+}
+
+a.btn, a.icon, a.headerlink {
+    text-decoration: none;
+}
+
+.rst-content.style-external-links a.reference.external::after {
+    display: inline-block;
+    vertical-align: middle;
+    color: hsl(0, 0%, 45%);
+    margin: 0 0.4em;
+}
+
+.rst-content a.icon:visited {
+    color: var(--link-color);
+}
+
+.rst-content .toctree-wrapper > p.caption, h2 {
+    font-size: 125%;
+}
+
+.rst-content .toctree-wrapper ul li > * {
+    margin-top: 0;
+}
+
+.rst-content p {
+    margin-bottom: 12px;
+}
+
+.rst-content code, .rst-content tt, code {
+    font-size: 90%;
+}
+
+.rst-content .toctree-wrapper a {
+    text-decoration: none;
+}
+
+[class^=toctree] :is(code.literal, tt.literal) {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    padding: 0;
+    background: none;
+    border: none;
+}
+
+
+
+/***** API badge *****/
+
+.rst-content :is(h1, h2, h3, h4):has(+ .api) {
+    display: inline-block;
+}
+
+.api {
+    display: inline-block;
+    padding: 3px 10px;
+    margin: 0;
+    position: relative;
+    bottom: 1px;
+    border: 1px solid currentColor;
+    border-radius: 1em;
+    line-height: 1;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: hsl(0, 50%, 50%);
+    white-space: nowrap;
+}
+
+
+
+/***** List spacing *****/
+
+.rst-content section :is(ul, ol, ol.arabic) {
+    margin-bottom: 12px;
+}
+
+.rst-content li > .line-block {
+    margin-bottom: 0;
+}
+
+.rst-content dl:not(.field-list):not(.function) dt + dd + dt {
+    margin-top: 24px;
+}
+
+.rst-content dl dt,
+.rst-content dl dd {
+    margin-bottom: 0;
+}
+
+.rst-content dd + dd {
+    margin-top: 24px;
+}
+
+.rst-content .sig dd + dd {
+    margin-top: 0;
+}
+
+.rst-content .sig dl {
+    margin-bottom: 0;
+}
+
+
+
+/***** Functions *****/
+
+/* Space after function defintions. Quite the selector ^^ (from original theme) */
+html.writer-html4 .rst-content dl:not(.docutils),
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) {
+    margin-bottom: 48px;
+}
+
+html.writer-html4 .rst-content dl:not(.docutils) > dt .headerlink,
+html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.citation):not(.glossary):not(.simple) > dt .headerlink {
+    color: var(--link-color);
+}
+
+html.writer-html5 .rst-content dl.function > dd dl {
+    grid-template-columns: 1fr;
+}
+
+html.writer-html5 .rst-content dl.function {
+    container-name: parameter-description;
+    container-type: inline-size;
+}
+
+html.writer-html5 .rst-content dl.function dl.parameter-description {
+    grid-template-columns: auto 1fr;
+    margin-bottom: 0;
+}
+
+@container parameter-description (max-width: 70ch) {
+    html.writer-html5 .rst-content dl.function dl.parameter-description {
+        grid-template-columns: 1fr;
+    }
+}
+
+html.writer-html5 .rst-content dl.function > dd > dl > dd {
+    margin-left: 0;
+}
+
+html.writer-html5 .rst-content dl.function > dd > dl dt {
+    padding-left: 0;
+}
+
+.sig .pre {
+    display: inline-block;
+}
+
+.rst-content .function dt .colon {
+    display: none;
+}
+
+.rst-content .function .sig {
+    background: none !important;
+    padding-left: 0 !important;
+}
+.rst-content .function .sig .descname {
+    font-size: 1.25rem;
+}
+
+.rst-content .function .brief {
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: hsl(0, 0%, 42%);
+}
+
+.rst-content .function .function-parameter {
+    margin: 0;
+}
+
+.rst-content dl.enumerator {
+    margin-bottom: 24px !important;
+}
+
+.rst-content .function dd {
+    margin: 0
+}
+
+.rst-content .function .parameters > dt:first-child {
+    margin-top: 12px;
+}
+.rst-content .function .parameters > dd + dt {
+    margin-top: 24px;
+}
+
+.rst-content .function .parameter-description :is(dt, dd) {
+    margin-top: 0;
+    margin-bottom: 6px !important;
+    padding-top: 6px;
+    border-top: 1px solid hsl(0, 0%, 90%);
+    padding-right: 24px;
+}
+
+.rst-content .function .parameter-description dt {
+    padding-right: 24px;
+}
+@container parameter-description (max-width: 70ch) {
+    .rst-content .function .parameter-description dt {
+        margin-top: 12px;
+    }
+}
+
+.function-parameter {
+    font-weight: 600;
+}
+
+
+
+/***** Type colors *****/
+
+.k,
+:is(.n, .default_value).nonetype,
+:is(.kt, .n).bool ~ .default_value {
+    color: var(--keyword-color);
+}
+
+.kt,
+.pointer,
+.n.type {
+    color: var(--type-color);
+}
+
+:is(.kt, .n).bool,
+:is(.kt, .n).bool ~ .pointer {
+    color: var(--type-bool-color);
+}
+
+:is(.kt, .n).float,
+:is(.kt, .n).float ~ .pointer {
+    color: var(--type-float-color);
+}
+
+:is(.kt, .n).int,
+:is(.kt, .n).int ~ .pointer,
+.enumerator .m {
+    color: var(--type-int-color);
+}
+
+.template-type,
+.template-type.n,
+.template-type .n,
+.template-type + .pointer {
+    color: var(--template-type-color);
+}
+
+.m,
+:is(.kt, .n).float ~ .default_value,
+:is(.kt, .n).int ~ .default_value {
+    color: var(--number-color);
+}
+
+:is(.s, .sc) {
+    color: var(--str-char-color);
+}
+
+.n {
+    color: var(--name-color);
+}

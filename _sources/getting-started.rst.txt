@@ -1,0 +1,33 @@
+Getting started
+===============
+
+libmipflooding provides a C++ and a C API, as well as a Python wrapper to interface with its functions.
+
+The main functionality this library provides:
+
+* :doc:`Mip flooding an image<mip-flooding>`
+* :doc:`Generating mip-flooded mip maps<generating-mip-maps>`
+
+
+Input data and processing options
+---------------------------------
+
+Coverage masks
+    * will usually be generated from a meshes' UV, the UV islands being white and the other parts black
+    * or the alpha channel can be used as the coverage mask, which can be useful e.g. when you are optimizing textures
+      where the visibility is not fully determined through geometry/UVs, e.g. atlases or foliage
+    * the coverage mask is expected to be of a binary nature and is converted to 0/1 during initial processing.
+      A custom threshold can be provided for this step.
+
+Channels
+    * can be processed in full (up to 8 channels are theoretically supported)
+    * or selectively, when a channel bit mask is provided. The most common use case would be preserving the alpha channel
+      and only flooding the RGB channels.
+    * Additionally, the alpha channel (last channel) can be processed unweighted (box filtering)
+
+sRGB images
+    * can be converted to linear space before scaling (and back to sRGB in postprocessing) to prevent luminosity shifts
+
+Normal maps
+    * can be processed using a special normal map mode, which currently re-normalizes the vectors to unit length after each
+      scaling step. This will be replaced with Slerp interpolation in a future release.

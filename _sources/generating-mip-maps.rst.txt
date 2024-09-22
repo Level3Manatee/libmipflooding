@@ -1,0 +1,31 @@
+Generating mip maps
+===================
+
+libmipflooding can also be used to directly generate mip maps.
+
+generate_mips()
+---------------
+.. api:: All APIs
+
+Generates intermediate mips. These still have "holes" (i.e. channels outside of coverage are 0, for images with an
+alpha channel this means transparent). Note: The Python wrapper fills these holes through compositing by default.
+
+For images where the alpha channel is used as the coverage mask, the output will be equivalent to
+"coverage-preserving alpha mipmapping", i.e. alpha will always be 1 for pixels inside of coverage. This can be
+changed by setting``scale_alpha_unweighted`` to true.
+
+* :cpp:func:`C++ API<libmipflooding::generate_mips>`
+* :cpp:func:`C API<libmipflooding_c::generate_mips>`
+* :py:func:`Python wrapper <libmipflooding.generate_mips>`
+
+
+composite_mips()
+----------------
+.. api:: C++/C API
+
+Outputs mip maps without holes by compositing mip levels into each other. Use a channel bit mask to preserve alpha.
+
+* :cpp:func:`C++ API<libmipflooding::composite_mips>`
+* :cpp:func:`C API<libmipflooding_c::composite_mips>`
+* Python: integrated into :py:func:`generate_mips() <libmipflooding.generate_mips>`
+

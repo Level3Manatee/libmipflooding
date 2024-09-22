@@ -1,0 +1,5 @@
+Helper functions
+================
+
+.. doxygengroup:: helper_functions
+    :content-only:
