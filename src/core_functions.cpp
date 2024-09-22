@@ -44,7 +44,7 @@ FUNC(ImageT, MaskT)
     uint_fast16_t mip_width = image_width / 2;
     uint_fast16_t mip_height = image_height / 2;
 
-    /** Do pre-processing and first weighted scale in one go, to only touch the data once */
+    /** Do pre-processing and first weighted scale in one go, to only touch the data once (20-30 % overall speedup) */
     float* output_mip = new float[static_cast<uint32_t>(mip_width * mip_height * channel_stride)];
     uint8_t* output_mask = new uint8_t[static_cast<uint32_t>(mip_width * mip_height)];
     if (max_threads != 1)

@@ -17,6 +17,8 @@ namespace libmipflooding
      * HELPER FUNCTIONS
      *******************************************/
     #pragma region helper_functions
+    /// @defgroup helper_functions Helper functions
+    /// @{
 
     /**
      * Converts a float image to uint8/uint16/float, optionally with sRGB conversion
@@ -73,6 +75,10 @@ namespace libmipflooding
 
     /**
      * Calculate the number of mip levels for a given resolution
+     * 
+     * @param width 
+     * @param height 
+     * @return Number of mip levels
      */
     EXPORT_SYMBOL uint8_t get_mip_count(
         const uint_fast16_t width,
@@ -81,6 +87,10 @@ namespace libmipflooding
 
     /**
      * Returns a channel bit mask, for up to 8 channels
+     * 
+     * @param array 
+     * @param element_count 
+     * @return Bit mask
      */
     EXPORT_SYMBOL uint8_t channel_mask_from_array(
         const bool* array,
@@ -89,6 +99,10 @@ namespace libmipflooding
 
     /**
      * Release memory allocated by generate_mips()
+     * 
+     * @param mip_count 
+     * @param mips_output 
+     * @param masks_output 
      */
     EXPORT_SYMBOL void free_mips_memory(
         const uint_fast8_t mip_count,
@@ -96,6 +110,7 @@ namespace libmipflooding
         uint8_t** masks_output
     );
 
+    /// @}
     #pragma endregion helper_functions
 
     
@@ -103,7 +118,9 @@ namespace libmipflooding
     * SUBROUTINES
     *******************************************/
     #pragma region subroutines
-
+    /// @defgroup subroutines Subroutines
+    /// @{
+    
     /**
      * Pre-process and scale down input image
      *
@@ -445,6 +462,7 @@ namespace libmipflooding
         const uint_fast8_t max_threads = 0
     );
 
+    /// @}
     #pragma endregion subroutines
 
     
@@ -452,6 +470,8 @@ namespace libmipflooding
     * CORE FUNCTIONS
     *******************************************/
     #pragma region core_functions
+    /// @defgroup core_functions Core functions
+    /// @{
 
     /**
      * Generate coverage-weighted mip maps
@@ -569,5 +589,6 @@ namespace libmipflooding
         const uint_fast8_t max_threads = 0
     );
 
+    /// @}
     #pragma endregion core_functions
 }

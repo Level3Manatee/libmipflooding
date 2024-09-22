@@ -27,7 +27,9 @@ namespace libmipflooding_c
         * HELPER FUNCTIONS
         *******************************************/
         #pragma region helper_functions
-
+        /// @defgroup helper_functions_c Helper functions (C API)
+        /// @{
+        
         /**
          * Converts a float image to uint8/uint16/float, optionally with sRGB conversion
          * 
@@ -36,7 +38,7 @@ namespace libmipflooding_c
          * @param channel_stride Number of total channels in image data
          * @param image_in       Pointer to input image, float*
          * @param image_out      Pointer to pre-allocated target, OutputT*
-         * @param out_data_type  Output data type as DATA_TYPE enum value (UINT8=0 / UINT16=1 / FLOAT32=2)
+         * @param out_data_type  Output data type as DATA_TYPE enum value
          * @param convert_srgb   (optional) Convert linear to sRGB?
          * @param channel_mask   (optional) Bit mask of channels to process, 0 = all channels.
          *                       You can use channel_mask_from_array() to generate a mask from an array of booleans.
@@ -63,7 +65,7 @@ namespace libmipflooding_c
          * @param channel_stride Number of total channels in image data
          * @param image_in       Pointer to input image, float*
          * @param image_out      Pointer to pre-allocated target, OutputT*
-         * @param out_data_type  Output data type as DATA_TYPE enum value (UINT8=0 / UINT16=1 / FLOAT32=2)
+         * @param out_data_type  Output data type as DATA_TYPE enum value
          * @param convert_srgb   (optional) Convert linear to sRGB?
          * @param channel_mask   (optional) Bit mask of channels to process, 0 = all channels.
          *                       You can use channel_mask_from_array() to generate a mask from an array of booleans.
@@ -84,6 +86,10 @@ namespace libmipflooding_c
 
         /**
          * Calculate the number of mip levels for a given resolution
+         * 
+         * @param width 
+         * @param height 
+         * @return Number of mip levels
          */
         EXPORT_SYMBOL uint8_t get_mip_count(
             const uint16_t width,
@@ -92,6 +98,10 @@ namespace libmipflooding_c
         
         /**
          * Returns a channel bit mask, for up to 8 channels
+         * 
+         * @param array 
+         * @param element_count 
+         * @return Bit mask
          */
         EXPORT_SYMBOL uint8_t channel_mask_from_array(
             const bool* array,
@@ -100,13 +110,18 @@ namespace libmipflooding_c
 
         /**
          * Release memory allocated by generate_mips()
+         * 
+         * @param mip_count 
+         * @param mips_output 
+         * @param masks_output 
          */
         EXPORT_SYMBOL void free_mips_memory(
             const uint_fast8_t mip_count,
             float** mips_output,
             uint8_t** masks_output
         );
-        
+
+        /// @}
         #pragma endregion helper_functions
 
     
@@ -114,6 +129,8 @@ namespace libmipflooding_c
         * SUBROUTINES
         *******************************************/
         #pragma region subroutines
+        /// @defgroup subroutines_c Subroutines (C API)
+        /// @{
 
         /**
          * Pre-process and scale down input image
@@ -136,9 +153,9 @@ namespace libmipflooding_c
          *                       or end row for partial processing
          * @param channel_stride Number of total channels in image data
          * @param input_image    Pointer to input image, void*
-         * @param input_data_type Input image type as DATA_TYPE enum value (UINT8=0 / UINT16=1 / FLOAT32=2)
+         * @param input_data_type Input image type as DATA_TYPE enum value
          * @param input_mask     (optional) Pointer to input mask, void* or nullptr 
-         * @param input_mask_data_type Input mask data type as DATA_TYPE enum value (UINT8=0 / UINT16=1 / FLOAT32=2),
+         * @param input_mask_data_type Input mask data type as DATA_TYPE enum value,
          *                       ignored when input mask pointer is nullptr
          * @param output_image   Pointer to pre-allocated output image, float*
          * @param output_mask    Pointer to pre-allocated output mask, uint8_t*
@@ -190,9 +207,9 @@ namespace libmipflooding_c
          * @param output_height  Output image height in pixels (must be power of 2)
          * @param channel_stride Number of total channels in image data
          * @param input_image    Pointer to input image, void*
-         * @param input_data_type Input image type as DATA_TYPE enum value (UINT8=0 / UINT16=1 / FLOAT32=2)
+         * @param input_data_type Input image type as DATA_TYPE enum value
          * @param input_mask     (optional) Pointer to input mask, void* or nullptr 
-         * @param input_mask_data_type Input mask data type as DATA_TYPE enum value (UINT8=0 / UINT16=1 / FLOAT32=2),
+         * @param input_mask_data_type Input mask data type as DATA_TYPE enum value,
          *                       ignored when input mask pointer is nullptr
          * @param output_image   Pointer to pre-allocated output image, float*
          * @param output_mask    Pointer to pre-allocated output mask, uint8_t*
@@ -389,9 +406,9 @@ namespace libmipflooding_c
          * @param channel_stride Number of total channels in image data
          * @param input_image    Pointer to largest mip, float* 
          * @param output_image   Pointer to output image (expected to contain original image), void*
-         * @param output_data_type Original image type as DATA_TYPE enum value (UINT8=0 / UINT16=1 / FLOAT32=2)
+         * @param output_data_type Original image type as DATA_TYPE enum value
          * @param mask           (optional) Pointer to mask, void* or nullptr
-         * @param mask_data_type Mask data type as DATA_TYPE enum value (UINT8=0 / UINT16=1 / FLOAT32=2),
+         * @param mask_data_type Mask data type as DATA_TYPE enum value,
          *                       ignored when mask pointer is nullptr
          * @param coverage_threshold (optional) Threshold to use for binarizing the mask. Defaults to 0.999f.
          * @param convert_linear_to_srgb (optional) Convert linear to sRGB
@@ -437,9 +454,9 @@ namespace libmipflooding_c
          * @param channel_stride Number of total channels in image data
          * @param input_image    Pointer to largest mip, float* 
          * @param output_image   Pointer to output image (expected to contain original image), void*
-         * @param output_data_type Original image type as DATA_TYPE enum value (UINT8=0 / UINT16=1 / FLOAT32=2)
+         * @param output_data_type Original image type as DATA_TYPE enum value
          * @param mask           (optional) Pointer to mask, void* or nullptr
-         * @param mask_data_type Mask data type as DATA_TYPE enum value (UINT8=0 / UINT16=1 / FLOAT32=2),
+         * @param mask_data_type Mask data type as DATA_TYPE enum value,
          *                       ignored when mask pointer is nullptr
          * @param coverage_threshold (optional) Threshold to use for binarizing the mask. Defaults to 0.999f.
          * @param convert_linear_to_srgb (optional) Convert linear to sRGB
@@ -462,7 +479,8 @@ namespace libmipflooding_c
             const uint8_t channel_mask = 0,
             const uint8_t max_threads = 0
         );
-        
+
+        /// @}
         #pragma endregion subroutines
         
         
@@ -470,7 +488,9 @@ namespace libmipflooding_c
         * CORE FUNCTIONS
         *******************************************/
         #pragma region core_functions
-
+        /// @defgroup core_functions_c Core functions (C API)
+        /// @{
+        
         /**
          * Generate coverage-weighted mip maps
          *
@@ -481,7 +501,7 @@ namespace libmipflooding_c
          * see free_mips_memory().
          *
          * @param image_in_out    Input image as void* pointer
-         * @param image_data_type Input image type as DATA_TYPE enum value (UINT8=0 / UINT16=1 / FLOAT32=2)
+         * @param image_data_type Input image type as DATA_TYPE enum value
          * @param image_width     Input image width in pixels (must be power of 2)
          * @param image_height    Input image height pixels (must be power of 2)
          * @param channel_stride  Number of total channels in image data
@@ -554,13 +574,13 @@ namespace libmipflooding_c
          * and then compositing the unmodified original image on top.
          * 
          * @param image_in_out    Input image of type uint8_t/uint16_t/float
-         * @param image_data_type Input image type as DATA_TYPE enum value (UINT8=0 / UINT16=1 / FLOAT32=2)
+         * @param image_data_type Input image type as DATA_TYPE enum value
          * @param image_width     Input image width in pixels (must be power of 2)
          * @param image_height    Input image height pixels (must be power of 2)
          * @param channel_stride  Number of total channels in image data
          * @param image_mask      (optional) Coverage mask of type uint8_t/uint16_t/float.
          *                        Pass nullptr to use last channel of input image instead.
-         * @param mask_data_type  Mask data type as DATA_TYPE enum value (UINT8=0 / UINT16=1 / FLOAT32=2)
+         * @param mask_data_type  Mask data type as DATA_TYPE enum value
          * @param coverage_threshold (optional) Threshold to use for binarizing the input mask. Defaults to 0.999f.
          * @param convert_srgb    (optional) Convert sRGB to linear and back for correct scaling of sRGB textures?
          * @param is_normal_map   (optional) Perform processing for normal maps. Will re-normalize vectors to unit length
@@ -589,6 +609,7 @@ namespace libmipflooding_c
             const uint8_t max_threads = 0
         );
 
+        /// @}
         #pragma endregion core_functions
 
 #ifdef __cplusplus
