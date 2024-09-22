@@ -13,7 +13,10 @@ Features implemented in this library:
 * can generate weighted mip maps, and optionally re-normalize vectors (for normal maps). Slerp scaling is planned but not yet implemented.
 * includes C-style function exports for easier interfacing with non-C++ code (e.g. Python)
 
-This is a pre-release, more documentation to follow. I would love to get your feedback!
+This is a pre-release. I would love to get your feedback!
+
+The API is documented in-code, and here:
+* [Documentation](https://level3manatee.github.io/libmipflooding/)
 
 
 ### Python wrapper
