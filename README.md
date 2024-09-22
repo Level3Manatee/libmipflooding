@@ -15,6 +15,7 @@ Features implemented in this library:
 
 This is a pre-release. I would love to get your feedback!
 
+### Documentation
 The API is documented in-code, and here:
 * [Documentation](https://level3manatee.github.io/libmipflooding/)
 
@@ -53,7 +54,6 @@ Use `cmake ../ -DCMAKE_BUILD_TYPE=Debug` to enable printing of debug information
 
 ### TODO
 #### High priority
-* More documentation
 * input assertions and graceful failure
 
 #### Medium priority
