@@ -8,3 +8,4 @@ C API
     ./subroutines
     ./helper-functions
     ./data-type
+    ./lmf-status

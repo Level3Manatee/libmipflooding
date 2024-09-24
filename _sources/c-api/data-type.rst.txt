@@ -1,7 +1,7 @@
-DATA_TYPE
-=========
+LMF_DATA_TYPE
+=============
 
 .. cpp:namespace-push:: libmipflooding_c
 
-.. doxygenenum:: libmipflooding_c::DATA_TYPE
+.. doxygenenum:: LMF_DATA_TYPE
     :no-link:

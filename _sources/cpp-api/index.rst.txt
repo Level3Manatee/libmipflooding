@@ -7,3 +7,4 @@ C++ API
     ./core-functions
     ./subroutines
     ./helper-functions
+    ./lmf-status
