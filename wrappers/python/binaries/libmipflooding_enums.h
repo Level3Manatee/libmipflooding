@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstdint>
+// LIBMIPFLOODING_VERSION_MAJOR 0
+// LIBMIPFLOODING_VERSION_MINOR 3
 
 
 /**

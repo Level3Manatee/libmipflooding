@@ -4,7 +4,7 @@
 #include "libmipflooding_enums.h"
 
 #define LIBMIPFLOODING_VERSION_MAJOR 0
-#define LIBMIPFLOODING_VERSION_MINOR 2
+#define LIBMIPFLOODING_VERSION_MINOR 3
 
 #ifdef _WIN32
     #define EXPORT_SYMBOL __declspec(dllexport)

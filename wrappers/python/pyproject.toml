@@ -1,6 +1,6 @@
 [project]
 name = "libmipflooding"
-version = "0.2"
+version = "0.3"
 authors = [
     { name="Jan Ortgies", email="mipflooding@p23.eu" },
 ]
