@@ -15,6 +15,7 @@ Features
       Slerp scaling is planned but not yet implemented.
     * includes C-style function exports for easier interfacing using non-C++ code (e.g. Python)
 
+Source code and releases are `on GitHub <https://github.com/Level3Manatee/libmipflooding/>`_
 
 .. toctree::
     :hidden:
