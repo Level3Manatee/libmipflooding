@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.9)
 
-project(mipflooding VERSION 0.2 DESCRIPTION "A library for Mip Flooding, an efficient edge padding technique that improves compressibility, first presented by Sean Feeley at GDC 2019")
+project(mipflooding VERSION 0.3 DESCRIPTION "A library for Mip Flooding, an efficient edge padding technique that improves compressibility, first presented by Sean Feeley at GDC 2019")
 
 set(LIBMIPFLOODING_SRC_FILES
     ${PROJECT_SOURCE_DIR}/src/helpers/helper_functions.cpp
