@@ -1,6 +1,7 @@
 #include "libmipflooding.h"
 #include "libmipflooding_extern_c.h"
 #include "helpers/macros.h"
+#include "libmipflooding_enums.h"
 
 /*******************************************
  * C EXPORTS
@@ -21,7 +22,7 @@ extern "C" {
             const uint_fast8_t channel_stride,
             const float* image_in,
             void* image_out,
-            const DATA_TYPE out_data_type,
+            const LMF_DATA_TYPE out_data_type,
             const bool convert_srgb,
             const uint8_t channel_mask,
             const uint_fast16_t start_row)
@@ -39,7 +40,7 @@ extern "C" {
             const uint_fast8_t channel_stride,
             const float* image_in,
             void* image_out,
-            const DATA_TYPE out_data_type,
+            const LMF_DATA_TYPE out_data_type,
             const bool convert_srgb,
             const uint8_t channel_mask,
             const uint8_t max_threads)
@@ -62,9 +63,9 @@ extern "C" {
             const uint16_t output_height_or_end_row,
             const uint8_t channel_stride,
             const void* input_image,
-            const DATA_TYPE input_data_type,
+            const LMF_DATA_TYPE input_data_type,
             const void* input_mask,
-            const DATA_TYPE input_mask_data_type,
+            const LMF_DATA_TYPE input_mask_data_type,
             float* output_image,
             uint8_t* output_mask,
             const float coverage_threshold,
@@ -88,9 +89,9 @@ extern "C" {
             const uint16_t output_height,
             const uint8_t channel_stride,
             const void* input_image,
-            const DATA_TYPE input_data_type,
+            const LMF_DATA_TYPE input_data_type,
             const void* input_mask,
-            const DATA_TYPE input_mask_data_type,
+            const LMF_DATA_TYPE input_mask_data_type,
             float* output_image,
             uint8_t* output_mask,
             const float coverage_threshold,
@@ -177,9 +178,9 @@ extern "C" {
             const uint8_t channel_stride,
             const float* input_image,
             void* output_image,
-            const DATA_TYPE output_data_type,
+            const LMF_DATA_TYPE output_data_type,
             const void* mask,
-            const DATA_TYPE mask_data_type,
+            const LMF_DATA_TYPE mask_data_type,
             const float coverage_threshold,
             const bool convert_linear_to_srgb,
             const uint8_t channel_mask,
@@ -200,9 +201,9 @@ extern "C" {
             const uint8_t channel_stride,
             const float* input_image,
             void* output_image,
-            const DATA_TYPE output_data_type,
+            const LMF_DATA_TYPE output_data_type,
             const void* mask,
-            const DATA_TYPE mask_data_type,
+            const LMF_DATA_TYPE mask_data_type,
             const float coverage_threshold,
             const bool convert_linear_to_srgb,
             const uint8_t channel_mask,
@@ -225,9 +226,9 @@ extern "C" {
     }
     
     
-    bool libmipflooding_c::generate_mips(
+    LMF_STATUS libmipflooding_c::generate_mips(
             void* image_in_out,
-            const DATA_TYPE image_data_type,
+            const LMF_DATA_TYPE image_data_type,
             const uint16_t image_width,
             const uint16_t image_height,
             const uint8_t channel_stride,
@@ -241,18 +242,21 @@ extern "C" {
             const bool scale_alpha_unweighted,
             const uint8_t max_threads)
     {
+        if(image_data_type >= LMF_DATA_TYPE::MAX_VAL)
+            return LMF_STATUS::UNSUPPORTED_DATA_TYPE;
+        
         #define CALL(IMAGE_T) \
-            libmipflooding::generate_mips(static_cast<IMAGE_T*>(image_in_out), image_width, image_height, channel_stride, image_mask, mips_output, masks_output, coverage_threshold, convert_srgb, is_normal_map, channel_mask, scale_alpha_unweighted, max_threads)
+            return libmipflooding::generate_mips(static_cast<IMAGE_T*>(image_in_out), image_width, image_height, channel_stride, image_mask, mips_output, masks_output, coverage_threshold, convert_srgb, is_normal_map, channel_mask, scale_alpha_unweighted, max_threads)
 
         CALL_1_PARAM(image_data_type)
         
-        return false;
+        return LMF_STATUS::UNKNOWN;
         
         #undef CALL 
     }
     
     
-    bool libmipflooding_c::composite_mips(
+    LMF_STATUS libmipflooding_c::composite_mips(
             float** mips_in_out,
             const uint8_t** masks_input,
             const uint16_t image_width,
@@ -265,14 +269,14 @@ extern "C" {
     }
     
     
-    bool libmipflooding_c::flood_image(
+    LMF_STATUS libmipflooding_c::flood_image(
             void* image_in_out,
-            const DATA_TYPE image_data_type,
+            const LMF_DATA_TYPE image_data_type,
             const uint16_t image_width,
             const uint16_t image_height,
             const uint8_t channel_stride,
             const void* image_mask,
-            const DATA_TYPE mask_data_type,
+            const LMF_DATA_TYPE mask_data_type,
             const float coverage_threshold,
             const bool convert_srgb,
             const bool is_normal_map,
@@ -280,14 +284,17 @@ extern "C" {
             const bool scale_alpha_unweighted,
             const uint8_t max_threads)
     {
+        if(image_data_type >= LMF_DATA_TYPE::MAX_VAL || mask_data_type >= LMF_DATA_TYPE::MAX_VAL)
+            return LMF_STATUS::UNSUPPORTED_DATA_TYPE;
+        
         #define CALL(IMAGE_T, MASK_T) \
             return libmipflooding::flood_image(static_cast<IMAGE_T*>(image_in_out), image_width, image_height, channel_stride, static_cast<const MASK_T*>(image_mask), coverage_threshold, convert_srgb, is_normal_map, channel_mask, scale_alpha_unweighted, max_threads)
 
         CALL_2_PARAMS(image_data_type, mask_data_type)
 
-        return false;
+        return LMF_STATUS::UNKNOWN;
 
-        #undef CALL 
+        #undef CALL
     }
     
 } // extern "C"

@@ -2,6 +2,8 @@
 
 #include <cstdint>
 
+#include "libmipflooding_enums.h"
+
 #define LIBMIPFLOODING_VERSION_MAJOR 0
 #define LIBMIPFLOODING_VERSION_MINOR 2
 
@@ -504,10 +506,10 @@ namespace libmipflooding
      *                       i.e. regular box filtering
      * @param max_threads    (optional) Number of threads to use. 0 = auto (half of available threads,
      *                       which amounts to number of hardware cores for machines with SMT/HyperThreading)
-     * @return true on success, false on error (always returns true right now)
+     * @return LMF_STATUS enumerator, LMF_STATUS::SUCCESS / 1 on success
      */
     template <typename ImageT, typename MaskT>
-    EXPORT_SYMBOL bool generate_mips(
+    EXPORT_SYMBOL LMF_STATUS generate_mips(
         ImageT* image_in_out,
         const uint_fast16_t image_width,
         const uint_fast16_t image_height,
@@ -538,9 +540,9 @@ namespace libmipflooding
      *                       You can use channel_mask_from_array() to generate a mask from an array of booleans.
      * @param max_threads    (optional) Number of threads to use. 0 = auto (half of available threads,
      *                       which amounts to number of hardware cores for machines with SMT/HyperThreading)
-     * @return true on success, false on error (always returns true right now)
+     * @return LMF_STATUS enumerator, LMF_STATUS::SUCCESS / 1 on success
      */
-    EXPORT_SYMBOL bool composite_mips(
+    EXPORT_SYMBOL LMF_STATUS composite_mips(
         float** mips_in_out,
         const uint8_t** masks_input,
         const uint_fast16_t image_width,
@@ -572,10 +574,10 @@ namespace libmipflooding
      *                       i.e. regular box filtering
      * @param max_threads    (optional) Number of threads to use. 0 = auto (half of available threads,
      *                       which amounts to number of hardware cores for machines with SMT/HyperThreading)
-     * @return true on success, false on error (always returns true right now)
+     * @return LMF_STATUS enumerator, LMF_STATUS::SUCCESS / 1 on success
      */
     template <typename ImageT, typename MaskT>
-    EXPORT_SYMBOL bool flood_image(
+    EXPORT_SYMBOL LMF_STATUS flood_image(
         ImageT* image_in_out,
         const uint_fast16_t image_width,
         const uint_fast16_t image_height,

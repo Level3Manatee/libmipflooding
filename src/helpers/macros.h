@@ -54,6 +54,8 @@
         case FLOAT32: \
             CALL(float); \
             break; \
+        case MAX_VAL: \
+            break; \
     }
 
 /**
@@ -76,6 +78,8 @@
             case FLOAT32: \
                 CALL(OUTER_T, float); \
                 break; \
+            case MAX_VAL: \
+                break; \
         } \
         break;
 
@@ -93,4 +97,6 @@
         CALL_2_PARAMS_INNER(UINT8, uint8_t, INNER_PARAM) \
         CALL_2_PARAMS_INNER(UINT16, uint16_t, INNER_PARAM) \
         CALL_2_PARAMS_INNER(FLOAT32, float, INNER_PARAM) \
+        case MAX_VAL: \
+            break; \
     }

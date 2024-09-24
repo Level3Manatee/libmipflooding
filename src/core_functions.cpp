@@ -7,7 +7,8 @@
 
 #include "libmipflooding.h"
 #include "helpers/macros.h"
-
+#include "libmipflooding_enums.h"
+#include "helpers/helper_functions.h"
 
 /*******************************************
  * CORE FUNCTIONS
@@ -15,7 +16,7 @@
 #pragma region core_functions
 
 #define FUNC(IMAGE_T, MASK_T) \
-bool libmipflooding::generate_mips( \
+LMF_STATUS libmipflooding::generate_mips( \
         IMAGE_T* image_in_out, \
         const uint_fast16_t image_width, \
         const uint_fast16_t image_height, \
@@ -38,6 +39,20 @@ FUNC(ImageT, MaskT)
     std::cout << "Generating mips, image type " << typeid(ImageT).name() << ", mask type " << typeid(MaskT).name() << ", size " << std::to_string(image_width) << "x" << std::to_string(image_height) << "\n";
     #endif
 
+    /** Input checks */
+    // Power of 2?
+    if (!(is_power_of_two(image_width) && is_power_of_two(image_height)))
+        return LMF_STATUS::UNSUPPORTED_DIMENSIONS;
+    // Data format
+    if (!(std::is_same<ImageT, uint8_t>::value || std::is_same<ImageT, uint16_t>::value || std::is_same<ImageT, float>::value))
+        return LMF_STATUS::UNSUPPORTED_DATA_TYPE;
+    if (image_mask != nullptr
+        && !(std::is_same<MaskT, uint8_t>::value || std::is_same<MaskT, uint16_t>::value || std::is_same<MaskT, float>::value))
+        return LMF_STATUS::UNSUPPORTED_DATA_TYPE;
+    // Channel stride
+    if (channel_stride > 8)
+        return LMF_STATUS::UNSUPPORTED_CHANNEL_STRIDE;
+    
     /** Calculate number of mip levels, with support for non-square textures */
     const uint8_t mip_count = get_mip_count(image_width, image_height);
 
@@ -80,13 +95,13 @@ FUNC(ImageT, MaskT)
         #endif
     }
     
-    return true;
+    return LMF_STATUS::SUCCESS;
 }
 INSTANTIATE_TYPES_2(FUNC)
 #undef FUNC
 
 
-bool libmipflooding::composite_mips(
+LMF_STATUS libmipflooding::composite_mips(
         float** mips_in_out,
         const uint8_t** masks_input,
         const uint_fast16_t image_width,
@@ -95,6 +110,15 @@ bool libmipflooding::composite_mips(
         const uint8_t channel_mask,
         const uint_fast8_t max_threads)
 {
+
+    /** Input checks */
+    // Power of 2?
+    if (!(is_power_of_two(image_width) && is_power_of_two(image_height)))
+        return LMF_STATUS::UNSUPPORTED_DIMENSIONS;
+    // Channel stride
+    if (channel_stride > 8)
+        return LMF_STATUS::UNSUPPORTED_CHANNEL_STRIDE;
+    
     /** Calculate number of mip levels, with support for non-square textures */
     const uint8_t mip_count = get_mip_count(image_width, image_height);
 
@@ -119,12 +143,12 @@ bool libmipflooding::composite_mips(
         #endif
     }
 
-    return true;
+    return LMF_STATUS::SUCCESS;
 }
 
 
 #define FUNC(IMAGE_T, MASK_T) \
-bool libmipflooding::flood_image( \
+LMF_STATUS libmipflooding::flood_image( \
         IMAGE_T* image_in_out, \
         const uint_fast16_t image_width, \
         const uint_fast16_t image_height, \
@@ -144,6 +168,20 @@ template <typename ImageT, typename MaskT>
     std::cout << "Flooding image\n";
     #endif
 
+    /** Input checks */
+    // Power of 2?
+    if (!(is_power_of_two(image_width) && is_power_of_two(image_height)))
+        return LMF_STATUS::UNSUPPORTED_DIMENSIONS;
+    // Data format
+    if (!(std::is_same<ImageT, uint8_t>::value || std::is_same<ImageT, uint16_t>::value || std::is_same<ImageT, float>::value))
+        return LMF_STATUS::UNSUPPORTED_DATA_TYPE;
+    if (image_mask != nullptr
+        && !(std::is_same<MaskT, uint8_t>::value || std::is_same<MaskT, uint16_t>::value || std::is_same<MaskT, float>::value))
+        return LMF_STATUS::UNSUPPORTED_DATA_TYPE;
+    // Channel stride
+    if (channel_stride > 8)
+        return LMF_STATUS::UNSUPPORTED_CHANNEL_STRIDE;
+    
     /** Calculate number of mip levels, with support for non-square (power of 2) textures */
     const uint_fast8_t mip_count = get_mip_count(image_width, image_height);
 
@@ -181,7 +219,7 @@ template <typename ImageT, typename MaskT>
         std::cout << "Released mips and masks memory\n";
     #endif
 
-    return false;
+    return LMF_STATUS::SUCCESS;
 }
 INSTANTIATE_TYPES_2(FUNC)
 #undef FUNC

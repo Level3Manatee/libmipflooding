@@ -1,10 +1,12 @@
 import platform
 import ctypes
 from ctypes import c_bool as bool_t, c_ubyte as uint8_t, c_ushort as uint16_t, c_float as float_t, c_void_p
+
 import numpy as np
 from enum import IntEnum
 import os.path
 from typing import Union
+from warnings import warn
 
 
 path = os.path.dirname(__file__)
@@ -15,11 +17,23 @@ if platform.system() == "Windows":
 else:
     libmipflooding = ctypes.CDLL(path + '/binaries/libmipflooding.so')
 
-
 class _DATA_TYPE(IntEnum):
     UINT8 = 0
     UINT16 = 1
     FLOAT32 = 2
+
+class _STATUS(IntEnum):
+    UNKNOWN = 0,
+    SUCCESS = 1,
+    UNSUPPORTED_DIMENSIONS = 2,
+    UNSUPPORTED_DATA_TYPE = 3,
+    UNSUPPORTED_CHANNEL_STRIDE = 4,
+    START_ROW_OUT_OF_BOUNDS = 5
+
+libmipflooding.generate_mips.restype = uint8_t
+libmipflooding.composite_mips.restype = uint8_t
+libmipflooding.flood_image.restype = uint8_t
+
 
 def get_mip_count(width: int, height: int) -> int:
     """
@@ -110,7 +124,7 @@ def generate_mips(
     masks_output = (ctypes.POINTER(uint8_t) * mip_count)()
 
     # generate coverage-weighted mip levels
-    libmipflooding.generate_mips(
+    ret_val = libmipflooding.generate_mips(
         image_buffer_pointer,
         image_data_type,
         uint16_t(image_width),
@@ -126,9 +140,14 @@ def generate_mips(
         bool_t(scale_alpha_unweighted),
         uint8_t(max_threads))
 
+    status = _STATUS(ret_val)
+    if not status == _STATUS.SUCCESS:
+        warn(f"Error processing file during generate_mips(): {status.name}")
+        return None
+
     if composite_mips:
         # fill holes by compositing mips from bottom to top
-        libmipflooding.composite_mips(
+        ret_val = libmipflooding.composite_mips(
             mips_output_float,
             masks_output,
             uint16_t(image_width),
@@ -136,6 +155,11 @@ def generate_mips(
             uint8_t(channel_stride),
             uint8_t(channel_mask),
             uint8_t(max_threads))
+
+        status = _STATUS(ret_val)
+        if not status == _STATUS.SUCCESS:
+            warn(f"Error processing file during composite_mips(): {status.name}")
+            return None
 
     mip_width = image_width
     mip_height = image_height
@@ -227,7 +251,7 @@ def flood_image(
         if preserve_mask_channel:
             channel_mask = (channel_mask & ~(1 << channel_stride - 1)) if channel_mask != 0 else (255 >> (8 - channel_stride + 1))
 
-    libmipflooding.flood_image(
+    ret_val = libmipflooding.flood_image(
         image_buffer_pointer,
         image_data_type,
         uint16_t(image_width),
@@ -241,5 +265,10 @@ def flood_image(
         uint8_t(channel_mask),
         bool_t(scale_alpha_unweighted),
         uint8_t(max_threads))
+
+    status = _STATUS(ret_val)
+    if not status == _STATUS.SUCCESS:
+        warn(f"Error processing file during flood_image(): {status.name}")
+        return None
 
     return image_flat.reshape(image.shape[0], image.shape[1], image.shape[2])

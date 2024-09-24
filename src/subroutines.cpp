@@ -8,6 +8,7 @@
 #include "helpers/channel_set.h"
 #include "helpers/macros.h"
 #include "helpers/helper_functions.h"
+#include "libmipflooding_enums.h"
 
 
 /**
@@ -48,7 +49,8 @@ void run_threaded(
     const uint_fast16_t elements_per_thread = row_count / num_threads;
     const uint_fast16_t remaining_elements = row_count % num_threads;
     
-    for (unsigned int thread_id = 0; thread_id < num_threads; ++thread_id) {
+    for (unsigned int thread_id = 0; thread_id < num_threads; ++thread_id)
+    {
         uint_fast16_t start_idx = thread_id * elements_per_thread;
         uint_fast16_t end_idx = (thread_id == num_threads - 1)
                                  ? (start_idx + elements_per_thread + remaining_elements)
@@ -56,10 +58,10 @@ void run_threaded(
         threads.emplace_back(std::forward<Function>(function), row_width, end_idx, channel_stride, std::forward<Args>(args)..., start_idx);
     }
     
-    for (auto& thread : threads) {
-        if (thread.joinable()) {
+    for (auto& thread : threads)
+    {
+        if (thread.joinable())
             thread.join();
-        }
     }
 }
 
