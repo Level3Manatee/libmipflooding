@@ -13,6 +13,7 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/Level3Manatee/libmipflooding"
+Documentation = "https://level3manatee.github.io/libmipflooding/"
 Issues = "https://github.com/Level3Manatee/libmipflooding/issues"
 
 [build-system]
